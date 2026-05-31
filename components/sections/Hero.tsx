@@ -11,7 +11,12 @@ export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null)
 
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+  const [isMobile, setIsMobile] = useState(false)
 
+  /* ── Detect mobile on mount ──────────────────────────────── */
+  useEffect(() => {
+    setIsMobile(window.matchMedia('(max-width: 768px)').matches || navigator.maxTouchPoints > 0)
+  }, [])
 
   /* ── Framer Motion scroll — visual parallax only ──────── */
   const { scrollYProgress } = useScroll({
@@ -22,11 +27,12 @@ export default function Hero() {
   const rawOverlay = useTransform(scrollYProgress, [0, 0.6], [0.45, 0.88])
   const bgScale    = useSpring(rawScale, { stiffness: 55, damping: 18 })
 
-  /* ── VIDEO SCRUB — RAF loop ────────────────────────────────
-     requestAnimationFrame runs every frame regardless of scroll
-     mechanism (Lenis, native, touch). Reads window.scrollY directly.
+  /* ── VIDEO SCRUB — desktop only (RAF loop) ──────────────────
+     On mobile, browsers block preload/seek → use autoplay instead.
   ────────────────────────────────────────────────────────── */
   useEffect(() => {
+    if (isMobile) return  // mobile uses autoplay — no scrub needed
+
     let rafId: number
 
     const loop = () => {
@@ -40,7 +46,6 @@ export default function Hero() {
         const progress = Math.max(0, Math.min((scrollY - heroTop) / heroH, 1))
         const target   = progress * video.duration
 
-        // Only seek if meaningfully different — avoids redundant decode ops
         if (Math.abs(video.currentTime - target) > 0.033) {
           try { video.currentTime = target } catch (_) { /* not seekable yet */ }
         }
@@ -51,7 +56,7 @@ export default function Hero() {
 
     rafId = requestAnimationFrame(loop)
     return () => cancelAnimationFrame(rafId)
-  }, [])
+  }, [isMobile])
 
   /* ── Mouse parallax ──────────────────────────────────────── */
   useEffect(() => {
@@ -70,7 +75,7 @@ export default function Hero() {
       ref={heroRef}
       id="inicio"
       className="relative w-full"
-      style={{ height: '380vh', background: '#05080F' }}
+      style={{ height: isMobile ? '100dvh' : '380vh', background: '#05080F' }}
     >
       {/* Sticky wrapper — keeps everything pinned while section scrolls */}
       <div className="sticky top-0 w-full overflow-hidden flex items-center justify-center"
@@ -91,20 +96,35 @@ export default function Hero() {
           }}
         />
 
-        <video
-          ref={videoRef}
-          muted
-          playsInline
-          preload="auto"
-          className="absolute inset-0 w-full h-full object-cover"
-          onLoadedMetadata={(e) => {
-            const v = e.currentTarget
-            v.pause()
-            v.currentTime = 0
-          }}
-        >
-          <source src="/videos/hero.webm" type="video/webm" />
-        </video>
+        {isMobile ? (
+          /* Mobile — autoplay loop, no scrub */
+          <video
+            ref={videoRef}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          >
+            <source src="/videos/hero.webm" type="video/webm" />
+          </video>
+        ) : (
+          /* Desktop — preload + RAF scrub */
+          <video
+            ref={videoRef}
+            muted
+            playsInline
+            preload="auto"
+            className="absolute inset-0 w-full h-full object-cover"
+            onLoadedMetadata={(e) => {
+              const v = e.currentTarget
+              v.pause()
+              v.currentTime = 0
+            }}
+          >
+            <source src="/videos/hero.webm" type="video/webm" />
+          </video>
+        )}
       </motion.div>
 
       {/* ── Dark overlay (intensifies on scroll) ─────────── */}

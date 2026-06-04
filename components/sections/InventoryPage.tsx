@@ -205,7 +205,7 @@ function Card({ v, onOpen }: { v: Vehicle; onOpen: ()=>void }) {
 
 /* ─── Full Inventory Page ────────────────────────────────── */
 export default function InventoryPage() {
-  const [selected,    setSelected]    = useState<Vehicle|null>(null)
+  
   const [brand,       setBrand]       = useState('Todos')
   const [type,        setType]        = useState('Todos')
   const [priceIdx,    setPriceIdx]    = useState(0)
@@ -300,7 +300,7 @@ export default function InventoryPage() {
       {/* Grid */}
       {filtered.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {filtered.map(v => <Card key={v.id} v={v} onOpen={() => setSelected(v)}/>)}
+          {filtered.map(v => <Card key={v.id} v={v} onOpen={() => window.location.href = `/inventario/${v.id}`}/>)}
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center py-20 text-center">
@@ -318,9 +318,7 @@ export default function InventoryPage() {
         </a>
       </div>
 
-      <AnimatePresence>
-        {selected && <VehicleModal v={selected} onClose={() => setSelected(null)}/>}
-      </AnimatePresence>
+      
     </div>
   )
 }

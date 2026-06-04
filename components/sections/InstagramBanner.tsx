@@ -10,7 +10,7 @@ export default function InstagramBanner() {
   const inView = useInView(ref, { once: true, margin: '-60px' })
 
   return (
-    <section style={{ background:'var(--surface)', padding:'80px 0' }}>
+    <section style={{ background:'var(--surface)', padding:'clamp(40px, 7vw, 80px) 0' }}>
       <div className="max-w-4xl mx-auto px-6">
         <motion.div ref={ref}
           initial={{ opacity:0, y:24 }}

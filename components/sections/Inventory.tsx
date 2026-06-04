@@ -3,6 +3,7 @@
 import { useRef, useState, useMemo } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
+import Link from 'next/link'
 import { MessageCircle, Fuel, Settings, Gauge, Tag, X, Users, Palette, ChevronRight, ShieldCheck, SlidersHorizontal } from 'lucide-react'
 import { vehicles, WHATSAPP_URL } from '@/lib/data'
 import { formatCurrency } from '@/lib/utils'
@@ -155,7 +156,7 @@ function Card({ v, delay, onOpen }: { v: Vehicle; delay: number; onOpen: ()=>voi
         transition={{ type:'spring', stiffness:180, damping:22 }}
         style={{ transformStyle:'preserve-3d' }}
         className="vehicle-card cursor-pointer"
-        onClick={onOpen}>
+        onClick={() => window.location.href = `/inventario/${v.id}`}>
         <motion.div
           animate={hover ? { boxShadow:'0 20px 50px rgba(0,0,0,0.6), 0 0 0 1px rgba(201,163,82,0.25)' } : { boxShadow:'0 4px 20px rgba(0,0,0,0.3)' }}
           transition={{ duration:0.3 }}
@@ -236,7 +237,7 @@ export default function Inventory() {
   }), [brand, type, priceIdx])
 
   return (
-    <section id="inventario" style={{ background:'var(--bg)', padding:'96px 0' }}>
+    <section id="inventario" style={{ background:'var(--bg)', padding:'clamp(48px, 8vw, 96px) 0' }}>
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
         <div ref={ref} className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">

@@ -47,7 +47,7 @@ export default function FinancingCalculator() {
   )
 
   return (
-    <section id="financiamiento" style={{ background:'var(--surface)', padding:'96px 0', position:'relative' }}>
+    <section id="financiamiento" style={{ background:'var(--surface)', padding:'clamp(48px, 8vw, 96px) 0', position:'relative' }}>
       <div className="absolute inset-0 pointer-events-none"
         style={{ background:'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(201,163,82,0.04) 0%, transparent 70%)' }}/>
 

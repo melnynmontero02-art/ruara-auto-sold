@@ -10,7 +10,7 @@ export default function CTA() {
   const inView = useInView(ref, { once:true, margin:'-60px' })
 
   return (
-    <section id="cta-section" style={{ background:'var(--bg)', padding:'96px 0', position:'relative', overflow:'hidden' }}>
+    <section id="cta-section" style={{ background:'var(--bg)', padding:'clamp(48px, 8vw, 96px) 0', position:'relative', overflow:'hidden' }}>
       <div className="absolute inset-0 pointer-events-none"
         style={{ background:'radial-gradient(ellipse 70% 60% at 50% 50%, rgba(201,163,82,0.06) 0%, transparent 70%)' }}/>
       <div className="absolute top-0 left-0 right-0 h-px"
@@ -31,7 +31,7 @@ export default function CTA() {
           Escríbenos y un asesor te ayudará a encontrar el vehículo perfecto con el mejor plan de financiamiento.
         </motion.p>
         <motion.div initial={{ opacity:0,y:14 }} animate={inView?{opacity:1,y:0}:{}} transition={{ duration:0.6,delay:0.2 }}
-          className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+          className="flex flex-col gap-4 items-center justify-center w-full px-4 sm:flex-row sm:px-0">
           <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer"
             className="btn-gold flex items-center gap-2 min-w-[230px] justify-center py-4 text-sm">
             <MessageCircle size={16}/>Escribir por WhatsApp<ArrowRight size={14}/>

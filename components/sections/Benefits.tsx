@@ -17,7 +17,7 @@ export default function Benefits() {
   const inView = useInView(ref, { once: true })
 
   return (
-    <section id="beneficios" style={{ background:'var(--bg)', padding:'96px 0' }}>
+    <section id="beneficios" style={{ background:'var(--bg)', padding:'clamp(48px, 8vw, 96px) 0' }}>
       <div className="max-w-7xl mx-auto px-6">
         <div ref={ref} className="text-center mb-14">
           <motion.div initial={{ opacity:0,y:14 }} animate={inView?{opacity:1,y:0}:{}} transition={{ duration:0.6 }}

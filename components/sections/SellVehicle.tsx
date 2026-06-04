@@ -50,7 +50,7 @@ export default function SellVehicle() {
   }
 
   return (
-    <section id="vende" style={{ background: 'var(--bg)', padding: '96px 0' }}>
+    <section id="vende" style={{ background: 'var(--bg)', padding: 'clamp(48px, 8vw, 96px) 0' }}>
       <div className="max-w-6xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           {/* Left — pitch */}
@@ -99,7 +99,7 @@ export default function SellVehicle() {
               </h3>
 
               <form onSubmit={submit} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs mb-1.5" style={{ color:'var(--text-2)' }}>Marca *</label>
                     <select name="brand" required value={form.brand} onChange={ch} 
@@ -114,7 +114,7 @@ export default function SellVehicle() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs mb-1.5" style={{ color:'var(--text-2)' }}>Año *</label>
                     <input name="year" type="number" required placeholder="2020" min={1990} max={2026} value={form.year} onChange={ch} className="neu-input"/>
@@ -136,7 +136,7 @@ export default function SellVehicle() {
                   </select>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs mb-1.5" style={{ color:'var(--text-2)' }}>Precio esperado (RD$)</label>
                     <input name="price" type="text" placeholder="500,000" value={form.price} onChange={ch} className="neu-input"/>

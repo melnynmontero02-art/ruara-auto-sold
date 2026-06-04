@@ -17,13 +17,13 @@ export default function VerifiedVehicles() {
   const inView = useInView(ref, { once: true, margin: '-60px' })
 
   return (
-    <section id="verificados" style={{ background: 'var(--surface)', padding: '96px 0', position: 'relative', overflow: 'hidden' }}>
+    <section id="verificados" style={{ background: 'var(--surface)', padding: 'clamp(48px, 8vw, 96px) 0', position: 'relative', overflow: 'hidden' }}>
       {/* BG glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] pointer-events-none"
         style={{ background: 'radial-gradient(ellipse, rgba(201,163,82,0.04) 0%, transparent 70%)' }} />
 
       <div className="max-w-7xl mx-auto px-6 relative">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           {/* Left */}
           <div ref={ref}>
             <motion.div initial={{ opacity:0,y:14 }} animate={inView?{opacity:1,y:0}:{}} transition={{ duration:0.6 }}

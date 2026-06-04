@@ -20,7 +20,8 @@ const columns = [
     links: [
       { text: 'Inicio',         url: '/' },
       { text: 'Inventario',     url: '/inventario' },
-      { text: 'Financiamiento', url: '/financiamiento' },
+      { text: 'Nosotros',       url: '/nosotros' },
+      { text: 'Servicios',      url: '/servicios' },
       { text: 'Vende tu auto',  url: '/vende' },
       { text: 'Contacto',       url: '/contacto' },
     ],
@@ -28,10 +29,10 @@ const columns = [
   {
     heading: 'Servicios',
     links: [
-      { text: 'Vehículos Verificados', url: '/#verificados' },
-      { text: 'Galería',               url: '/#galeria' },
-      { text: 'Testimonios',           url: '/#testimonios' },
-      { text: 'Calculadora',           url: '/financiamiento' },
+      { text: 'Financiamiento',        url: '/financiamiento' },
+      { text: 'Vehículos Verificados', url: '/servicios' },
+      { text: 'Importación directa',   url: '/servicios' },
+      { text: 'Calculadora de cuota',  url: '/financiamiento' },
     ],
   },
   {

@@ -16,11 +16,18 @@ export interface Vehicle {
   type: 'SUV' | 'Sedán' | 'Pickup' | 'Hatchback' | 'Van'
   image: string
   fallback: string
+  gallery?: string[]   // additional photos — add to /public/images/cars/car-XX-2.jpg etc.
   tag: 'PREMIUM' | 'NUEVO' | 'DISPONIBLE' | 'OFERTA' | 'VENDIDO'
   badge?: string
   color?: string
   seats?: string
   verified?: boolean
+  description?: string
+  owners?: number
+}
+
+export function getVehicleById(id: number): Vehicle | undefined {
+  return vehicles.find(v => v.id === id)
 }
 
 export const vehicles: Vehicle[] = [

@@ -49,7 +49,7 @@ export function SectionHeading({
           animate={inView ? { y: 0, opacity: 1 } : {}}
           transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1], delay: 0.08 }}
           className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight"
-          style={{ fontFamily: 'Syncopate, sans-serif', letterSpacing: '0.04em' }}
+          style={{ fontFamily: 'Century Gothic, CenturyGothic, Josefin Sans, sans-serif', letterSpacing: '0.04em' }}
         >
           {goldWord ? (
             <>

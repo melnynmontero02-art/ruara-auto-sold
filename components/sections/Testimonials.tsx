@@ -1,74 +1,121 @@
 'use client'
 
-import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
-import { Star, Quote } from 'lucide-react'
-import { testimonials } from '@/lib/data'
+import { motion } from 'framer-motion'
+import TestimonialCarousel from '@/components/ui/testimonial-carousel'
 
-function Card({ t }: { t: (typeof testimonials)[0] }) {
-  return (
-    <div className="flex-shrink-0 w-80 rounded-2xl p-6 relative"
-      style={{ background:'#FFFFFF', border:'1px solid rgba(0,0,0,0.07)', boxShadow:'0 2px 14px rgba(0,0,0,0.05)' }}>
-      <div className="absolute top-5 right-5 w-7 h-7 rounded-lg flex items-center justify-center"
-        style={{ background:'rgba(201,163,82,0.08)' }}>
-        <Quote size={12} style={{ color:'#C9A352' }}/>
-      </div>
-      <div className="flex gap-1 mb-4">
-        {Array.from({ length:t.rating }).map((_,i) => (
-          <Star key={i} size={11} style={{ color:'#C9A352', fill:'#C9A352' }}/>
-        ))}
-      </div>
-      <p className="text-sm leading-relaxed mb-5 italic text-gray-600">&ldquo;{t.quote}&rdquo;</p>
-      <div className="flex items-center gap-3 pt-4" style={{ borderTop:'1px solid #F1F5F9' }}>
-        <div className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm text-white"
-          style={{ background:'linear-gradient(135deg,#8B6A20,#C9A352)' }}>
-          {t.name.charAt(0)}
-        </div>
-        <div>
-          <div className="text-gray-900 font-semibold text-sm">{t.name}</div>
-          <div className="text-xs text-gray-400">{t.city}</div>
-        </div>
-      </div>
-      <div className="mt-3 px-2.5 py-1 rounded-lg text-xs font-medium w-fit"
-        style={{ background:'rgba(201,163,82,0.06)', border:'1px solid rgba(201,163,82,0.15)', color:'#8B6A20' }}>
-        {t.vehicle}
-      </div>
-    </div>
-  )
-}
+const title = 'Lo que dicen nuestros clientes'
+const titleWords = title.split(' ')
+
+const ruaraTestimonials = [
+  {
+    name: 'Carlos Mejía',
+    handle: 'Santo Domingo Este',
+    description: 'Excelente servicio. Me aprobaron el financiamiento en menos de 24 horas y el proceso fue muy transparente. Mi Ford Explorer está impecable.',
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80&auto=format',
+  },
+  {
+    name: 'María Rodríguez',
+    handle: 'Boca Chica',
+    description: 'Compré mi Elantra con inicial bajita y el proceso fue rapidísimo. El equipo de RUARA es honesto y muy profesional. 100% recomendado.',
+    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80&auto=format',
+  },
+  {
+    name: 'Junior Taveras',
+    handle: 'San Pedro de Macorís',
+    description: 'Busqué en varios dealers y ninguno me dio el trato que recibí aquí. La inicial fue flexible y el banco aprobó en tiempo récord.',
+    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&q=80&auto=format',
+  },
+  {
+    name: 'Ana Pérez',
+    handle: 'Santo Domingo Norte',
+    description: 'Mi Honda CRV llegó en perfectas condiciones. Documentación completa y sin sorpresas. Un dealer de confianza real.',
+    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&q=80&auto=format',
+  },
+  {
+    name: 'Roberto Familia',
+    handle: 'La Romana',
+    description: 'Tercera vez que compro con RUARA. Siempre el mejor trato, los mejores precios y la aprobación más rápida del mercado.',
+    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&q=80&auto=format',
+  },
+  {
+    name: 'Patricia Sánchez',
+    handle: 'Santiago',
+    description: 'Me ayudaron a escoger el Nissan Kicks ideal para mi presupuesto. El asesor fue muy paciente, claro y honesto en todo momento.',
+    image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&q=80&auto=format',
+  },
+]
 
 export default function Testimonials() {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once:true, margin:'-60px' })
-  const doubled = [...testimonials, ...testimonials]
-
   return (
-    <section id="testimonios" style={{ background:'#F8FAFC', padding:'96px 0', overflow:'hidden' }}>
-      <div className="max-w-7xl mx-auto px-6">
-        <div ref={ref} className="text-center mb-14">
-          <motion.div initial={{ opacity:0,y:14 }} animate={inView?{opacity:1,y:0}:{}} transition={{ duration:0.6 }}
-            className="section-label mb-5 mx-auto w-fit"><Star size={10}/>Lo que dicen nuestros clientes
+    <section
+      id="testimonios"
+      className="relative w-full flex flex-col items-center justify-center px-4 py-24 overflow-hidden"
+      style={{ background: 'var(--bg)' }}
+    >
+      {/* Subtle glow */}
+      <div className="absolute inset-0 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse 60% 40% at 50% 50%, rgba(201,163,82,0.04) 0%, transparent 70%)' }} />
+
+      <div className="relative z-10 flex flex-col items-center gap-12 w-full max-w-6xl">
+        {/* Header */}
+        <div className="flex flex-col items-center gap-4 text-center">
+          {/* Label */}
+          <motion.div
+            initial={{ opacity: 0, y: -12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="section-label"
+          >
+            <span className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--gold)' }} />
+            +500 clientes satisfechos
           </motion.div>
-          <motion.h2 initial={{ opacity:0,y:22 }} animate={inView?{opacity:1,y:0}:{}} transition={{ duration:0.7,delay:0.08 }}
-            className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
-            style={{ fontFamily:'Syncopate,sans-serif', letterSpacing:'0.04em' }}>
-            CLIENTES <span className="gold-text">SATISFECHOS</span>
-          </motion.h2>
-          <motion.p initial={{ opacity:0,y:14 }} animate={inView?{opacity:1,y:0}:{}} transition={{ duration:0.6,delay:0.14 }}
-            className="text-gray-500 max-w-md mx-auto">
-            Más de 500 familias dominicanas ya confían en RUARA AUTO SOLD.
+
+          {/* Title — word-by-word reveal */}
+          <h2
+            className="text-4xl md:text-6xl font-bold tracking-tight leading-tight"
+            style={{ fontFamily: 'Century Gothic, CenturyGothic, Josefin Sans, sans-serif', color: 'var(--text)' }}
+          >
+            {titleWords.map((word, i) => (
+              <motion.span
+                key={i}
+                initial={{ opacity: 0, filter: 'blur(6px)', y: 12 }}
+                whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: i * 0.07, ease: 'easeInOut' }}
+                className="mr-3 inline-block"
+              >
+                {i === 3 || i === 4 ? (
+                  <span className="gold-text">{word}</span>
+                ) : word}
+              </motion.span>
+            ))}
+          </h2>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.55 }}
+            className="text-base md:text-lg max-w-xl"
+            style={{ color: 'var(--text-2)' }}
+          >
+            Más de 500 familias dominicanas confían en RUARA AUTO SOLD.
+            <br className="hidden sm:block" />
+            Su experiencia habla por nosotros.
           </motion.p>
         </div>
-      </div>
 
-      <div className="relative">
-        <div className="absolute left-0 top-0 bottom-0 w-16 pointer-events-none z-10"
-          style={{ background:'linear-gradient(to right,#F8FAFC,transparent)' }}/>
-        <div className="absolute right-0 top-0 bottom-0 w-16 pointer-events-none z-10"
-          style={{ background:'linear-gradient(to left,#F8FAFC,transparent)' }}/>
-        <div className="t-track" style={{ animation:'scrollLeft 50s linear infinite' }}>
-          {doubled.map((t,i) => <Card key={i} t={t}/>)}
-        </div>
+        {/* Carousel */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.6 }}
+          className="w-full"
+        >
+          <TestimonialCarousel data={ruaraTestimonials} borderType="solid" />
+        </motion.div>
       </div>
     </section>
   )

@@ -2,16 +2,18 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, MessageCircle } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { Menu, X, MessageCircle, Instagram } from 'lucide-react'
 import { WHATSAPP_URL, INSTAGRAM_URL } from '@/lib/data'
-import { Instagram } from 'lucide-react'
+import ThemeToggle from '@/components/ui/ThemeToggle'
 
 const links = [
-  { label: 'Inicio',         href: '#inicio' },
-  { label: 'Inventario',     href: '#inventario' },
-  { label: 'Financiamiento', href: '#financiamiento' },
-  { label: 'Nosotros',       href: '#beneficios' },
-  { label: 'Contacto',       href: '#contacto' },
+  { label: 'Inicio',         href: '/' },
+  { label: 'Inventario',     href: '/inventario' },
+  { label: 'Financiamiento', href: '/financiamiento' },
+  { label: 'Vende tu auto',  href: '/vende' },
+  { label: 'Contacto',       href: '/contacto' },
 ]
 
 export default function Navbar() {
@@ -19,7 +21,7 @@ export default function Navbar() {
   const [open, setOpen]         = useState(false)
 
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 50)
+    const fn = () => setScrolled(window.scrollY > 60)
     window.addEventListener('scroll', fn, { passive: true })
     return () => window.removeEventListener('scroll', fn)
   }, [])
@@ -33,103 +35,67 @@ export default function Navbar() {
     <>
       <motion.nav
         initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0,   opacity: 1 }}
+        animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.16,1,0.3,1] }}
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
         style={scrolled ? {
-          background:   '#FFFFFF',
-          boxShadow:    '0 2px 20px rgba(0,0,0,0.08)',
-          borderBottom: '1px solid rgba(0,0,0,0.06)',
-          padding:      '10px 0',
+          background: 'var(--bg)',
+          backdropFilter: 'blur(24px)',
+          borderBottom: '1px solid var(--border)',
+          boxShadow: '0 2px 20px rgba(0,0,0,0.08)',
+          padding: '8px 0',
         } : {
           background: 'transparent',
-          padding:    '22px 0',
+          padding: '18px 0',
         }}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-
-          {/* Logo */}
-          <button onClick={() => go('#inicio')} className="flex flex-col leading-none">
-            <span style={{
-              fontFamily:   'Syncopate, sans-serif',
-              fontSize:     '1.15rem',
-              fontWeight:   700,
-              letterSpacing:'0.18em',
-              color:        scrolled ? '#0F172A' : '#FFFFFF',
-            }}>
-              RUARA
-            </span>
-            <span style={{
-              fontSize:     '8px',
-              letterSpacing:'0.32em',
-              color:        '#C9A352',
-              fontWeight:   600,
-              textTransform:'uppercase',
-              marginTop:    '2px',
-            }}>
-              AUTO SOLD
-            </span>
-          </button>
+          {/* Logo — dark: glowing, light: black text */}
+          <Link href="/" className="flex items-center">
+            <Image src="/images/logo.png"       alt="RUARA AUTO SOLD" width={120} height={48} className="object-contain logo-dark"  priority />
+            <Image src="/images/logo-light.png" alt="RUARA AUTO SOLD" width={120} height={48} className="object-contain logo-light" priority />
+          </Link>
 
           {/* Desktop links */}
-          <div className="hidden lg:flex items-center gap-9">
+          <div className="hidden lg:flex items-center gap-8">
             {links.map(l => (
-              <button
-                key={l.label}
-                onClick={() => go(l.href)}
-                className="text-sm font-medium relative group transition-colors duration-300"
-                style={{ color: scrolled ? '#374151' : 'rgba(255,255,255,0.85)' }}
-                onMouseEnter={e => (e.currentTarget.style.color = scrolled ? '#0F172A' : '#FFFFFF')}
-                onMouseLeave={e => (e.currentTarget.style.color = scrolled ? '#374151' : 'rgba(255,255,255,0.85)')}
-              >
+              <Link key={l.label} href={l.href}
+                className="text-sm font-medium transition-colors duration-300 relative group"
+                style={{ color: 'var(--text-2)' }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--text)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-2)')}>
                 {l.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-ruara-gold transition-all duration-300 group-hover:w-full"
+                <span className="absolute -bottom-1 left-0 w-0 h-px transition-all duration-300 group-hover:w-full"
                   style={{ background: '#C9A352' }} />
-              </button>
+              </Link>
             ))}
           </div>
 
-          {/* CTA */}
-          <div className="hidden lg:flex items-center gap-3">
-            <a
-              href={INSTAGRAM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+          {/* CTAs */}
+          <div className="hidden lg:flex items-center gap-4">
+            <ThemeToggle />
+            <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer"
               className="w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-300"
-              style={{
-                background: scrolled ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.1)',
-                color: scrolled ? '#0F172A' : '#FFFFFF',
-                border: scrolled ? '1px solid rgba(0,0,0,0.08)' : '1px solid rgba(255,255,255,0.2)',
-              }}
-              aria-label="Instagram RUARA AUTO SOLD"
-              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(201,163,82,0.12)'; e.currentTarget.style.color = '#C9A352'; e.currentTarget.style.borderColor = 'rgba(201,163,82,0.3)' }}
-              onMouseLeave={e => { e.currentTarget.style.background = scrolled ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = scrolled ? '#0F172A' : '#FFFFFF'; e.currentTarget.style.borderColor = scrolled ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.2)' }}
-            >
+              style={{ background: 'var(--card-bg)', border: '1px solid var(--border)', color: 'var(--text-2)' }}
+              aria-label="Instagram"
+              onMouseEnter={e => { e.currentTarget.style.color = '#C9A352'; e.currentTarget.style.borderColor = 'rgba(201,163,82,0.4)' }}
+              onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-2)'; e.currentTarget.style.borderColor = 'var(--border)' }}>
               <Instagram size={15} />
             </a>
-            <a
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-gold text-xs py-2.5 px-5"
-            >
-              <MessageCircle size={13} />
-              WhatsApp
+            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer"
+              className="btn-gold text-xs py-2.5 px-5">
+              <MessageCircle size={13} />WhatsApp
             </a>
           </div>
 
           {/* Hamburger */}
-          <button
-            onClick={() => setOpen(!open)}
-            className="lg:hidden p-2 text-white"
-            aria-label="Menú"
-          >
+          <button onClick={() => setOpen(!open)} className="lg:hidden p-2" style={{ color:'var(--text)' }} aria-label="Menú">
             {open ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </motion.nav>
 
-      {/* Mobile overlay */}
+      {/* Mobile menu */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -138,43 +104,38 @@ export default function Navbar() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
             className="fixed inset-0 z-40 lg:hidden flex flex-col"
-            style={{ background: 'rgba(6,7,9,0.97)', backdropFilter: 'blur(20px)' }}
-          >
+            style={{ background: 'var(--bg)', backdropFilter: 'blur(24px)' }}>
             <div className="flex justify-between items-center px-6 py-5"
-              style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-              <span style={{ fontFamily:'Syncopate,sans-serif', fontWeight:700, letterSpacing:'0.18em', color:'#FFFFFF' }}>
-                RUARA
-              </span>
-              <button onClick={() => setOpen(false)} className="text-white/50 hover:text-white">
-                <X size={20} />
-              </button>
+              style={{ borderBottom: '1px solid var(--border)' }}>
+              <Link href="/" onClick={() => setOpen(false)}>
+                <Image src="/images/logo.png"       alt="RUARA AUTO SOLD" width={100} height={40} className="object-contain logo-dark" />
+                <Image src="/images/logo-light.png" alt="RUARA AUTO SOLD" width={100} height={40} className="object-contain logo-light" />
+              </Link>
+              <button onClick={() => setOpen(false)} style={{ color:'var(--text-2)' }} className="hover:opacity-100 opacity-70"><X size={20} /></button>
             </div>
-
             <div className="flex flex-col px-6 pt-8 gap-1">
               {links.map((l, i) => (
-                <motion.button
-                  key={l.label}
+                <motion.div key={l.label}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.07 }}
-                  onClick={() => go(l.href)}
-                  className="text-left py-4 text-2xl font-bold text-white/70 hover:text-white transition-colors"
-                  style={{ fontFamily: 'Syncopate,sans-serif', letterSpacing:'0.08em',
-                    borderBottom: '1px solid rgba(255,255,255,0.05)' }}
-                >
-                  {l.label.toUpperCase()}
-                </motion.button>
+                  transition={{ delay: i * 0.07 }}>
+                  <Link href={l.href} onClick={() => setOpen(false)}
+                    className="block py-4 text-xl font-bold transition-colors"
+                    style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif', letterSpacing:'0.06em', borderBottom:'1px solid var(--border)', color:'var(--text-2)' }}>
+                    {l.label.toUpperCase()}
+                  </Link>
+                </motion.div>
               ))}
-              <motion.div
-                initial={{ opacity:0, y:20 }}
-                animate={{ opacity:1, y:0 }}
-                transition={{ delay: links.length * 0.07 + 0.1 }}
-                className="mt-8"
-              >
+              <motion.div initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }}
+                transition={{ delay: links.length*0.07+0.1 }} className="mt-8 flex gap-3">
+                <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer"
+                  className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm"
+                  style={{ background:'var(--card-hover)', border:'1px solid var(--border)', color:'#fff' }}>
+                  <Instagram size={16} />Instagram
+                </a>
                 <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer"
-                  className="btn-gold w-full flex items-center justify-center gap-2 py-4">
-                  <MessageCircle size={16} />
-                  Escríbenos por WhatsApp
+                  className="btn-gold flex-1 flex items-center justify-center gap-2 py-3">
+                  <MessageCircle size={16} />WhatsApp
                 </a>
               </motion.div>
             </div>

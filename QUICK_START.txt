@@ -1,0 +1,175 @@
+🚀 **RUARA AUTO SOLD - SETUP QUICK START**
+
+===============================================
+✅ FASE 1: CONFIGURAR SUPABASE (5 MIN)
+===============================================
+
+1. Abre: https://supabase.com/dashboard
+2. Selecciona proyecto: ruara-auto-sold
+3. SQL Editor → New Query
+4. Abre archivo: SUPABASE_SETUP.sql (en el proyecto)
+5. Copia TODO el contenido
+6. Pégalo en Supabase SQL Editor
+7. Click "Run"
+8. ✅ Listo. Verifica en Table Editor que existan las 3 tablas
+
+===============================================
+✅ FASE 2: INSTALAR LOCALMENTE (3 MIN)
+===============================================
+
+En tu terminal, en la carpeta del proyecto:
+
+$ npm install
+
+(Instala las nuevas dependencias)
+
+===============================================
+✅ FASE 3: PROBAR LOCALMENTE (5 MIN)
+===============================================
+
+$ npm run dev
+
+Abre en navegador:
+- http://localhost:3000 → sitio normal
+- http://localhost:3000/admin → panel admin
+
+LOGIN ADMIN:
+Email: admin@ruara.com
+Contraseña: Ruara2024!Admin
+
+Prueba:
+✓ Agregar un vehículo
+✓ Ver en /inventario
+✓ Editar stats
+✓ Llenar un formulario
+
+===============================================
+✅ FASE 4: DEPLOY A VERCEL (5 MIN)
+===============================================
+
+1. $ git add .
+2. $ git commit -m "Setup Supabase + Admin panel"
+3. $ git push origin main
+
+En Vercel:
+1. Abre: https://vercel.com/dashboard
+2. "Add New Project"
+3. Selecciona repo: ruara-auto-sold
+4. Framework: Next.js (auto)
+5. Environment Variables → Agrega 3:
+   - NEXT_PUBLIC_SUPABASE_URL
+   - NEXT_PUBLIC_SUPABASE_ANON_KEY
+   - SUPABASE_SERVICE_KEY
+   (Los valores están en .env.local)
+6. Click "Deploy"
+7. Espera 3 minutos
+8. ✅ https://ruara-auto-sold.vercel.app
+
+===============================================
+✅ FASE 5: VERIFICAR DEPLOY (2 MIN)
+===============================================
+
+1. https://tu-sitio.vercel.app → sitio normal
+2. https://tu-sitio.vercel.app/admin → panel admin
+3. Prueba login
+4. Verifica que se carguen vehículos de BD
+
+===============================================
+✅ ARCHIVOS NUEVOS CREADOS
+===============================================
+
+BACKEND:
+├── app/api/leads/route.ts          (API para guardar leads)
+├── app/admin/page.tsx              (Login admin)
+├── app/admin/dashboard/page.tsx    (Dashboard admin)
+├── lib/supabase.ts                 (Cliente Supabase)
+└── lib/db.ts                       (Funciones de BD)
+
+ADMIN PANEL:
+├── components/admin/AdminSidebar.tsx       (Navigation)
+├── components/admin/VehiclesManager.tsx    (CRUD vehículos)
+├── components/admin/LeadsManager.tsx       (Ver consultas)
+└── components/admin/StatsManager.tsx       (Editar stats)
+
+CONFIGURACIÓN:
+├── .env.local                      (Credenciales Supabase)
+├── package.json                    (Nuevas dependencias)
+├── SUPABASE_SETUP.sql             (Script SQL para BD)
+└── SETUP_COMPLETE.md              (Documentación completa)
+
+===============================================
+✅ ADMIN PANEL FEATURES
+===============================================
+
+🚗 VEHÍCULOS
+  ✓ Ver todos activos
+  ✓ Agregar nuevo
+  ✓ Editar información
+  ✓ Eliminar (marcar inactivo)
+  ✓ Filtros avanzados
+
+📧 LEADS
+  ✓ Ver consultas
+  ✓ Marcar como leído
+  ✓ Ver teléfono/email
+  ✓ Links WhatsApp/Email
+
+📊 STATS
+  ✓ Total vendidos
+  ✓ Bancos aliados
+  ✓ % Aprobación
+  ✓ Años de experiencia
+
+===============================================
+✅ CAMBIOS EN DATOS
+===============================================
+
+NUEVA TABLA: vehicles (de BD en lugar de data.ts)
+NUEVA TABLA: leads (guardar consultas)
+NUEVA TABLA: stats (valores dinámicos)
+
+Ahora el sitio lee de Supabase en tiempo real.
+
+===============================================
+⚠️  IMPORTANTE
+===============================================
+
+1. Las credenciales admin están hardcodeadas
+   → Cambiar después en BD (tabla admin_users)
+
+2. El .env.local no debe commitearse
+   → Ya está en .gitignore
+
+3. En Vercel, agregar las 3 variables de entorno
+   → Sin ellas el sitio no funcionará
+
+4. RLS está habilitado en la BD
+   → Revisa SUPABASE_SETUP.sql para políticas
+
+===============================================
+❓ SI ALGO NO FUNCIONA
+===============================================
+
+1. Verifica .env.local:
+   $ cat .env.local
+
+2. Prueba localmente primero:
+   $ npm run dev
+
+3. Revisa logs de Supabase (SQL Editor)
+
+4. Lee SETUP_COMPLETE.md para troubleshooting
+
+===============================================
+🎉 ¡LISTO!
+
+Tu sitio ahora tiene:
+✅ Base de datos (Supabase)
+✅ Admin panel completo
+✅ Formularios guardando en BD
+✅ Gestor de vehículos
+✅ Gestor de leads
+✅ Estadísticas dinámicas
+✅ Deploy automático en Vercel
+
+¡A vender autos! 🚗

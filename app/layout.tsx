@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Script from 'next/script'
 import './globals.css'
 import SmoothScrollProvider from '@/components/layout/SmoothScrollProvider'
+import WelcomeModal from '@/components/ui/WelcomeModal'
 import { SITE_URL, BUSINESS_NAME, BUSINESS_PHONE } from '@/lib/data'
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID
@@ -80,6 +81,7 @@ export default function RootLayout({
         <SmoothScrollProvider>
           {children}
         </SmoothScrollProvider>
+        <WelcomeModal />
       </body>
     </html>
   )

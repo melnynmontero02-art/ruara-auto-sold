@@ -111,7 +111,7 @@ export default function VehicleDetail({ vehicle: v }: { vehicle: Vehicle }) {
   const allPhotos = [
     v.image,
     ...(v.gallery ?? []),
-    v.fallback,
+    ...((v.gallery ?? []).length > 0 ? [] : [v.fallback]),
   ].filter(Boolean).slice(0, 6)
 
   const [mainImg, setMainImg] = useState(allPhotos[0])

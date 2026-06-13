@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { getVehicles, getLeads, getStats } from '@/lib/db'
+import { getVehicles, getLeads, getStats, type Vehicle, type Lead } from '@/lib/db'
 import AdminSidebar from '@/components/admin/AdminSidebar'
 import VehiclesManager from '@/components/admin/VehiclesManager'
 import LeadsManager from '@/components/admin/LeadsManager'
@@ -15,9 +15,9 @@ export default function AdminDashboard() {
   const router = useRouter()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [activeTab, setActiveTab] = useState<Tab>('vehicles')
-  const [vehicles, setVehicles] = useState([])
-  const [leads, setLeads] = useState([])
-  const [stats, setStats] = useState({})
+  const [vehicles, setVehicles] = useState<Vehicle[]>([])
+  const [leads, setLeads] = useState<Lead[]>([])
+  const [stats, setStats] = useState<Record<string, number>>({})
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {

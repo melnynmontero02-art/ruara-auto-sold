@@ -4,6 +4,9 @@ import type { Database } from './supabase'
 export type Vehicle = Database['public']['Tables']['vehicles']['Row']
 export type Lead = Database['public']['Tables']['leads']['Row']
 export type Stat = Database['public']['Tables']['stats']['Row']
+export type VehicleNew = Omit<Vehicle, 'id' | 'created_at'>
+export type VehiclePatch = Partial<VehicleNew>
+export type LeadNew = Omit<Lead, 'id' | 'created_at' | 'is_read'> & { is_read?: boolean }
 
 /* ──── VEHICLES ──── */
 
@@ -36,7 +39,7 @@ export async function getVehicleById(id: number) {
   return data
 }
 
-export async function createVehicle(vehicle: Vehicle['Insert']) {
+export async function createVehicle(vehicle: VehicleNew) {
   const { data, error } = await supabase
     .from('vehicles')
     .insert([vehicle])
@@ -50,7 +53,7 @@ export async function createVehicle(vehicle: Vehicle['Insert']) {
   return data
 }
 
-export async function updateVehicle(id: number, updates: Vehicle['Update']) {
+export async function updateVehicle(id: number, updates: VehiclePatch) {
   const { data, error } = await supabase
     .from('vehicles')
     .update(updates)
@@ -88,7 +91,7 @@ export async function getLeads(unreadOnly = false) {
   return data || []
 }
 
-export async function createLead(lead: Lead['Insert']) {
+export async function createLead(lead: LeadNew) {
   const { data, error } = await supabase
     .from('leads')
     .insert([lead])

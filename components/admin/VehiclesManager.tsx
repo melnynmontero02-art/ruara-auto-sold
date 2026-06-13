@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { createVehicle, updateVehicle, deleteVehicle } from '@/lib/db'
 import { Plus, Edit2, Trash2, X } from 'lucide-react'
-import type { Vehicle } from '@/lib/db'
+import type { Vehicle, VehicleNew, VehiclePatch } from '@/lib/db'
 import { formatCurrency } from '@/lib/utils'
 
 interface VehiclesManagerProps {
@@ -72,9 +72,9 @@ export default function VehiclesManager({ vehicles, onRefresh }: VehiclesManager
     setLoading(true)
     try {
       if (editingId) {
-        await updateVehicle(editingId, formData)
+        await updateVehicle(editingId, formData as VehiclePatch)
       } else {
-        await createVehicle(formData as Vehicle['Insert'])
+        await createVehicle(formData as VehicleNew)
       }
       await onRefresh()
       setShowForm(false)
@@ -87,7 +87,7 @@ export default function VehiclesManager({ vehicles, onRefresh }: VehiclesManager
     setLoading(false)
   }
 
-  const handleDelete = async (id: number) {
+  const handleDelete = async (id: number) => {
     if (!confirm('¿Eliminar este vehículo?')) return
     setLoading(true)
     try {

@@ -10,7 +10,7 @@ import {
   ChevronDown, ChevronRight, CheckCircle,
 } from 'lucide-react'
 import type { Vehicle } from '@/lib/data'
-import { WHATSAPP_URL } from '@/lib/data'
+import { WHATSAPP_URL, vehicles } from '@/lib/data'
 import { formatCurrency as fmt } from '@/lib/utils'
 
 const faqs = [
@@ -20,6 +20,14 @@ const faqs = [
   { q: '¿El vehículo está financiado actualmente?' },
   { q: '¿Dónde se compró el vehículo?' },
 ]
+
+const tagStyle: Record<string, { bg: string; color: string }> = {
+  PREMIUM:    { bg: 'rgba(148,163,184,0.16)', color: '#E2E8F0' },
+  NUEVO:      { bg: 'rgba(59,130,246,0.12)', color: '#60A5FA' },
+  DISPONIBLE: { bg: 'rgba(34,197,94,0.10)',  color: '#4ade80' },
+  OFERTA:     { bg: 'rgba(239,68,68,0.10)',  color: '#f87171' },
+  VENDIDO:    { bg: 'rgba(100,116,139,0.1)', color: '#94A3B8' },
+}
 
 function Accordion({ question }: { question: string }) {
   const [open, setOpen] = useState(false)
@@ -35,7 +43,7 @@ function Accordion({ question }: { question: string }) {
       >
         <span className="font-semibold text-sm" style={{ color: 'var(--text)' }}>{question}</span>
         <motion.div animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.25 }}>
-          <ChevronDown size={18} style={{ color: 'var(--gold)', flexShrink: 0 }} />
+          <ChevronDown size={18} style={{ color: 'var(--text)', flexShrink: 0 }} />
         </motion.div>
       </button>
       <AnimatePresence>
@@ -57,6 +65,46 @@ function Accordion({ question }: { question: string }) {
   )
 }
 
+function RelatedCard({ v }: { v: Vehicle }) {
+  const [imgSrc, setImgSrc] = useState(v.image)
+
+  return (
+    <Link href={`/inventario/${v.id}`}
+      className="group block rounded-[24px] overflow-hidden transition-all duration-300"
+      style={{ background: 'var(--card)', border: '1px solid var(--border)' }}>
+      <div className="relative w-full h-[280px] flex items-center justify-center overflow-hidden" style={{ background: '#F5F5F5' }}>
+        <Image
+          src={imgSrc}
+          alt={`${v.brand} ${v.model}`}
+          fill
+          className="object-contain object-center p-4 transition-transform duration-500 group-hover:scale-105"
+          sizes="(max-width: 768px) 50vw, 25vw"
+          onError={() => setImgSrc(v.fallback)}
+        />
+        {v.verified && (
+          <div className="absolute top-3 left-3 flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold"
+            style={{ background:'rgba(255,255,255,0.9)', color:'#16a34a', border:'1px solid rgba(34,197,94,0.25)', backdropFilter:'blur(6px)' }}>
+            <ShieldCheck size={10}/>Verificado RUARA
+          </div>
+        )}
+      </div>
+      <div className="p-4">
+        <div className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color: 'var(--text)' }}>{v.brand}</div>
+        <h3 className="font-bold leading-tight mb-1"
+          style={{ fontFamily: 'var(--font)', fontSize: '0.95rem', color: 'var(--text)' }}>{v.model}</h3>
+        <div className="text-xs mb-3" style={{ color: 'var(--text-3)' }}>{v.year} · {v.mileage}</div>
+        <div className="flex items-end justify-between pt-3" style={{ borderTop: '1px solid var(--border)' }}>
+          <div>
+            <div className="text-xs mb-0.5" style={{ color: 'var(--text-3)' }}>Precio</div>
+            <div className="text-base font-bold text-accent" style={{ fontFamily: 'var(--font)' }}>{fmt(v.price)}</div>
+          </div>
+          <ChevronRight size={16} style={{ color: 'var(--text)' }} className="transition-transform duration-300 group-hover:translate-x-1" />
+        </div>
+      </div>
+    </Link>
+  )
+}
+
 export default function VehicleDetail({ vehicle: v }: { vehicle: Vehicle }) {
   // Build gallery from vehicle images
   const allPhotos = [
@@ -70,6 +118,8 @@ export default function VehicleDetail({ vehicle: v }: { vehicle: Vehicle }) {
 
   const getSrc = (src: string) => imgErrors[src] ? v.fallback : src
   const handleErr = (src: string) => setImgErrors(p => ({ ...p, [src]: true }))
+
+  const tag = tagStyle[v.tag] ?? tagStyle.DISPONIBLE
 
   const waMsg = encodeURIComponent(
     `Hola RUARA AUTO SOLD! Me interesa el ${v.brand} ${v.model} ${v.year}.\n` +
@@ -90,19 +140,25 @@ export default function VehicleDetail({ vehicle: v }: { vehicle: Vehicle }) {
     ...(v.owners ? [{ label: 'Dueños',   value: String(v.owners) }] : []),
   ]
 
+  // Other available vehicles — same type first, then the rest
+  const others   = vehicles.filter(rv => rv.id !== v.id && rv.tag !== 'VENDIDO')
+  const sameType = others.filter(rv => rv.type === v.type)
+  const restType = others.filter(rv => rv.type !== v.type)
+  const related  = [...sameType, ...restType].slice(0, 4)
+
   return (
     <div className="max-w-7xl mx-auto px-5 py-8 md:py-12">
 
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 mb-6 text-sm" style={{ color: 'var(--text-3)' }}>
         <Link href="/" style={{ color: 'var(--text-3)' }}
-          onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold)')}
+          onMouseEnter={e => (e.currentTarget.style.color = 'var(--text)')}
           onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-3)')}>
           Inicio
         </Link>
         <ChevronRight size={14} />
         <Link href="/inventario" style={{ color: 'var(--text-3)' }}
-          onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold)')}
+          onMouseEnter={e => (e.currentTarget.style.color = 'var(--text)')}
           onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-3)')}>
           Inventario
         </Link>
@@ -116,13 +172,12 @@ export default function VehicleDetail({ vehicle: v }: { vehicle: Vehicle }) {
         {/* ── Left: Image gallery ────────────────────────── */}
         <div>
           {/* Main image */}
-          <div className="relative rounded-2xl overflow-hidden mb-3"
-            style={{ aspectRatio: '4/3', background: 'var(--surface)' }}>
+          <div className="relative w-full aspect-[5/4] md:aspect-[4/3] overflow-hidden rounded-2xl mb-3 bg-neutral-100">
             <Image
               src={getSrc(mainImg)}
               alt={`${v.brand} ${v.model} ${v.year}`}
               fill
-              className="object-cover"
+              className="object-contain object-center p-4"
               priority
               sizes="(max-width: 768px) 100vw, 50vw"
               onError={() => handleErr(mainImg)}
@@ -136,7 +191,7 @@ export default function VehicleDetail({ vehicle: v }: { vehicle: Vehicle }) {
             )}
             {/* Tag */}
             <div className="absolute top-4 right-4 px-3 py-1 rounded-lg text-xs font-bold"
-              style={{ background: 'rgba(201,163,82,0.15)', border: '1px solid rgba(201,163,82,0.3)', color: '#C9A352', backdropFilter: 'blur(8px)' }}>
+              style={{ background: tag.bg, border: `1px solid ${tag.color}4D`, color: tag.color, backdropFilter: 'blur(8px)' }}>
               {v.tag}
             </div>
           </div>
@@ -151,16 +206,16 @@ export default function VehicleDetail({ vehicle: v }: { vehicle: Vehicle }) {
                   className="relative rounded-xl overflow-hidden transition-all duration-200"
                   style={{
                     aspectRatio: '1',
-                    border: mainImg === src ? '2px solid #C9A352' : '2px solid var(--border)',
+                    border: mainImg === src ? '2px solid var(--text)' : '2px solid var(--border)',
                     opacity: mainImg === src ? 1 : 0.65,
-                    background: 'var(--surface)',
+                    background: '#F5F5F4',
                   }}
                 >
                   <Image
                     src={getSrc(src)}
                     alt={`Foto ${i + 1}`}
                     fill
-                    className="object-cover"
+                    className="object-contain object-center p-1.5"
                     sizes="100px"
                     onError={() => handleErr(src)}
                   />
@@ -171,7 +226,7 @@ export default function VehicleDetail({ vehicle: v }: { vehicle: Vehicle }) {
 
           {/* Add more photos note */}
           <p className="text-xs mt-3" style={{ color: 'var(--text-3)' }}>
-            💡 Para agregar más fotos de este vehículo, coloca imágenes en <code style={{ color: 'var(--gold)' }}>/public/images/cars/car-{v.id}-2.jpg</code>, etc.
+            💡 Para agregar más fotos de este vehículo, coloca imágenes en <code style={{ color: 'var(--text)' }}>/public/images/cars/car-{v.id}-2.jpg</code>, etc.
           </p>
         </div>
 
@@ -183,7 +238,7 @@ export default function VehicleDetail({ vehicle: v }: { vehicle: Vehicle }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="text-sm font-bold tracking-widest uppercase mb-1" style={{ color: 'var(--gold)' }}>
+            <div className="text-sm font-bold tracking-widest uppercase mb-1" style={{ color: 'var(--text)' }}>
               {v.brand}
             </div>
             <h1 className="font-bold mb-4"
@@ -195,15 +250,15 @@ export default function VehicleDetail({ vehicle: v }: { vehicle: Vehicle }) {
             <div className="flex flex-wrap gap-2 mb-6">
               <span className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold"
                 style={{ background: 'var(--card-bg)', border: '1px solid var(--border)', color: 'var(--text-2)' }}>
-                <Calendar size={14} style={{ color: 'var(--gold)' }} />{v.year}
+                <Calendar size={14} style={{ color: 'var(--text)' }} />{v.year}
               </span>
               <span className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold"
                 style={{ background: 'var(--card-bg)', border: '1px solid var(--border)', color: 'var(--text-2)' }}>
-                <Gauge size={14} style={{ color: 'var(--gold)' }} />{v.mileage}
+                <Gauge size={14} style={{ color: 'var(--text)' }} />{v.mileage}
               </span>
               <span className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold"
                 style={{ background: 'var(--card-bg)', border: '1px solid var(--border)', color: 'var(--text-2)' }}>
-                <Fuel size={14} style={{ color: 'var(--gold)' }} />{v.fuel}
+                <Fuel size={14} style={{ color: 'var(--text)' }} />{v.fuel}
               </span>
             </div>
           </motion.div>
@@ -217,11 +272,11 @@ export default function VehicleDetail({ vehicle: v }: { vehicle: Vehicle }) {
           >
             {/* Price card */}
             <div className="rounded-2xl p-5"
-              style={{ background: 'rgba(201,163,82,0.07)', border: '1px solid rgba(201,163,82,0.18)' }}>
+              style={{ background: 'var(--tint)', border: '1px solid var(--tint-border)' }}>
               <div className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: 'var(--text-3)' }}>
                 NUESTRO PRECIO
               </div>
-              <div className="text-2xl font-bold gold-text" style={{ fontFamily: 'var(--font)' }}>
+              <div className="text-2xl font-bold text-accent" style={{ fontFamily: 'var(--font)' }}>
                 {fmt(v.price)}
               </div>
               <div className="text-xs mt-1" style={{ color: 'var(--text-3)' }}>
@@ -237,7 +292,7 @@ export default function VehicleDetail({ vehicle: v }: { vehicle: Vehicle }) {
               </div>
               <div className="flex gap-2">
                 <a href={`${WHATSAPP_URL}?text=${waMsg}`} target="_blank" rel="noopener noreferrer"
-                  className="btn-gold flex-1 flex items-center justify-center gap-1.5 py-3 text-xs">
+                  className="btn-primary flex-1 flex items-center justify-center gap-1.5 py-3 text-xs">
                   <MessageCircle size={15} />WhatsApp
                 </a>
                 <a href={`tel:+18098285795`}
@@ -311,6 +366,32 @@ export default function VehicleDetail({ vehicle: v }: { vehicle: Vehicle }) {
         </div>
       </motion.div>
 
+      {/* ── Other available vehicles ─────────────────────── */}
+      {related.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mt-12"
+        >
+          <div className="flex items-end justify-between mb-6 gap-4">
+            <h2 className="font-bold"
+              style={{ fontFamily: 'var(--font)', fontSize: 'clamp(1.1rem,2.5vw,1.35rem)', color: 'var(--text)' }}>
+              Otros vehículos <span className="text-accent">disponibles</span>
+            </h2>
+            <Link href="/inventario"
+              className="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold whitespace-nowrap"
+              style={{ color: 'var(--text)' }}>
+              Ver todo el inventario<ChevronRight size={14} />
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {related.map(rv => <RelatedCard key={rv.id} v={rv} />)}
+          </div>
+        </motion.div>
+      )}
+
       {/* ── Bottom CTA ────────────────────────────────────── */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
@@ -318,7 +399,7 @@ export default function VehicleDetail({ vehicle: v }: { vehicle: Vehicle }) {
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
         className="mt-12 rounded-2xl p-8 text-center"
-        style={{ background: 'linear-gradient(135deg, rgba(201,163,82,0.08), rgba(201,163,82,0.03))', border: '1px solid rgba(201,163,82,0.18)' }}
+        style={{ background: 'linear-gradient(135deg, var(--tint-strong), var(--tint))', border: '1px solid var(--tint-border)' }}
       >
         <h3 className="font-bold mb-2" style={{ fontSize: 'clamp(1.1rem,3vw,1.5rem)', color: 'var(--text)', fontFamily: 'var(--font)' }}>
           ¿Listo para conducir este {v.brand} {v.model}?
@@ -327,7 +408,7 @@ export default function VehicleDetail({ vehicle: v }: { vehicle: Vehicle }) {
           Escríbenos ahora y un asesor te ayuda con el financiamiento.
         </p>
         <a href={`${WHATSAPP_URL}?text=${waMsg}`} target="_blank" rel="noopener noreferrer"
-          className="btn-gold inline-flex items-center gap-2 py-4 px-8">
+          className="btn-primary inline-flex items-center gap-2 py-4 px-8">
           <MessageCircle size={18} />Quiero este vehículo
         </a>
       </motion.div>
@@ -337,7 +418,7 @@ export default function VehicleDetail({ vehicle: v }: { vehicle: Vehicle }) {
         <Link href="/inventario"
           className="inline-flex items-center gap-2 text-sm transition-colors"
           style={{ color: 'var(--text-3)' }}
-          onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold)')}
+          onMouseEnter={e => (e.currentTarget.style.color = 'var(--text)')}
           onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-3)')}>
           <ArrowLeft size={14} />Volver al inventario
         </Link>

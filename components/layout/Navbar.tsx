@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { MessageCircle, Instagram, X, ArrowRight } from 'lucide-react'
+import { usePathname } from 'next/navigation'
+import { Menu, X, MessageCircle, Instagram } from 'lucide-react'
 import { WHATSAPP_URL, INSTAGRAM_URL } from '@/lib/data'
 import ThemeToggle from '@/components/ui/ThemeToggle'
 
@@ -17,207 +18,196 @@ const links = [
   { label: 'Contacto',       href: '/contacto' },
 ]
 
-/* ─── Hamburger icon ────────────────────────────────────── */
-function Hamburger({ open, onClick }: { open: boolean; onClick: () => void }) {
-  return (
-    <button
-      onClick={onClick}
-      aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
-      className="lg:hidden relative flex flex-col justify-center items-center"
-      style={{ width: '44px', height: '44px', gap: '5px' }}
-    >
-      <motion.span
-        animate={open ? { rotate: 45, y: 6.5 } : { rotate: 0, y: 0 }}
-        transition={{ duration: 0.3 }}
-        className="block w-6 h-0.5 rounded-full"
-        style={{ background: 'var(--text)', transformOrigin: 'center' }}
-      />
-      <motion.span
-        animate={open ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
-        transition={{ duration: 0.2 }}
-        className="block w-6 h-0.5 rounded-full"
-        style={{ background: 'var(--text)' }}
-      />
-      <motion.span
-        animate={open ? { rotate: -45, y: -6.5 } : { rotate: 0, y: 0 }}
-        transition={{ duration: 0.3 }}
-        className="block w-6 h-0.5 rounded-full"
-        style={{ background: 'var(--text)', transformOrigin: 'center' }}
-      />
-    </button>
-  )
-}
-
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
-  const [open, setOpen]         = useState(false)
+  const [open, setOpen] = useState(false)
+  const pathname = usePathname()
+  const isActive = (href: string) => href === '/' ? pathname === '/' : pathname.startsWith(href)
 
-  useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 50)
-    window.addEventListener('scroll', fn, { passive: true })
-    return () => window.removeEventListener('scroll', fn)
-  }, [])
-
-  // Lock body scroll when menu is open
+  // Lock body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [open])
 
+  const closeMenu = () => setOpen(false)
+
   return (
     <>
-      <motion.nav
-        initial={{ y: -80, opacity: 0 }}
+      <motion.header
+        initial={{ y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, ease: [0.16,1,0.3,1] }}
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-400"
-        style={scrolled ? {
-          background: 'var(--bg)',
-          backdropFilter: 'blur(24px)',
-          borderBottom: '1px solid var(--border)',
-          boxShadow: '0 2px 20px rgba(0,0,0,0.1)',
-          padding: '8px 0',
-        } : {
-          background: 'transparent',
-          padding: '16px 0',
-        }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        className="fixed left-0 right-0 top-0 z-50 px-3 pt-3 sm:px-4 sm:pt-4"
       >
-        <div className="max-w-7xl mx-auto px-5 flex items-center justify-between">
+        <nav
+          className="mx-auto flex h-[68px] max-w-7xl items-center justify-between rounded-full px-4 backdrop-blur-2xl md:h-[80px] md:px-6"
+          style={{
+            background: 'var(--glass-bg)',
+            border: '1px solid var(--glass-border)',
+            boxShadow: '0 8px 32px var(--shadow)',
+          }}
+        >
           {/* Logo */}
-          <Link href="/" className="flex items-center" onClick={() => setOpen(false)}>
-            <Image src="/images/logo.png"       alt="RUARA AUTO SOLD" width={110} height={44} className="object-contain logo-dark"  priority />
-            <Image src="/images/logo-light.png" alt="RUARA AUTO SOLD" width={110} height={44} className="object-contain logo-light" priority />
+          <Link href="/" onClick={closeMenu} className="flex shrink-0 items-center" aria-label="RUARA AUTO SOLD - Inicio">
+            <Image
+              src="/images/logo.png"
+              alt="RUARA AUTO SOLD"
+              width={140}
+              height={140}
+              priority
+              className="logo-dark h-12 w-auto md:h-16"
+            />
+            <Image
+              src="/images/logo-light.png"
+              alt="RUARA AUTO SOLD"
+              width={140}
+              height={140}
+              priority
+              className="logo-light h-12 w-auto md:h-16"
+            />
           </Link>
 
-          {/* Desktop links */}
-          <div className="hidden lg:flex items-center gap-7">
-            {links.map(l => (
-              <Link key={l.label} href={l.href}
-                className="text-sm font-semibold transition-colors duration-200 relative group"
+          {/* Center nav — cápsula glass (desktop) */}
+          <div
+            className="hidden items-center gap-1 rounded-full p-1 lg:flex"
+            style={{ background: 'var(--tint)', border: '1px solid var(--tint-border)' }}
+          >
+            {links.map(l => {
+              const active = isActive(l.href)
+              return (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  className="rounded-full px-5 py-2 text-sm font-medium tracking-wide transition-colors duration-200"
+                  style={active
+                    ? { background: 'var(--tint-strong)', color: 'var(--text)' }
+                    : { color: 'var(--text-2)' }}
+                  onMouseEnter={e => { if (!active) e.currentTarget.style.color = 'var(--text)' }}
+                  onMouseLeave={e => { if (!active) e.currentTarget.style.color = 'var(--text-2)' }}
+                >
+                  {l.label}
+                </Link>
+              )
+            })}
+          </div>
+
+          {/* Right side */}
+          <div className="flex shrink-0 items-center gap-2 md:gap-3">
+            <div
+              className="hidden items-center gap-3 rounded-full px-3 py-2 md:flex"
+              style={{ background: 'var(--tint)', border: '1px solid var(--tint-border)' }}
+            >
+              <ThemeToggle />
+              <a
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="flex items-center transition-colors duration-200"
                 style={{ color: 'var(--text-2)' }}
                 onMouseEnter={e => (e.currentTarget.style.color = 'var(--text)')}
-                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-2)')}>
-                {l.label}
-                <span className="absolute -bottom-0.5 left-0 w-0 h-px transition-all duration-300 group-hover:w-full"
-                  style={{ background: 'var(--gold)' }} />
-              </Link>
-            ))}
-          </div>
+                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-2)')}
+              >
+                <Instagram size={16} />
+              </a>
+            </div>
 
-          {/* Desktop CTAs */}
-          <div className="hidden lg:flex items-center gap-3">
-            <ThemeToggle />
-            <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer"
-              className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200"
-              style={{ background: 'var(--card-bg)', border: '1px solid var(--border)', color: 'var(--text-2)' }}
-              aria-label="Instagram"
-              onMouseEnter={e => { e.currentTarget.style.color = 'var(--gold)'; e.currentTarget.style.borderColor = 'rgba(201,163,82,0.4)' }}
-              onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-2)'; e.currentTarget.style.borderColor = 'var(--border)' }}>
-              <Instagram size={16} />
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition-all duration-300 hover:scale-[1.03] md:px-5 md:text-sm"
+              style={{ background: 'var(--accent)', color: 'var(--accent-text)' }}
+            >
+              <MessageCircle size={15} />
+              <span className="hidden sm:inline">WhatsApp</span>
             </a>
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="btn-gold text-xs py-2.5 px-5">
-              <MessageCircle size={14} />WhatsApp
-            </a>
-          </div>
 
-          {/* Mobile: theme toggle + hamburger */}
-          <div className="lg:hidden flex items-center gap-2">
-            <ThemeToggle />
-            <Hamburger open={open} onClick={() => setOpen(!open)} />
+            {/* Hamburger — mobile/tablet */}
+            <button
+              type="button"
+              onClick={() => setOpen(prev => !prev)}
+              aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
+              aria-expanded={open}
+              className="flex h-10 w-10 items-center justify-center rounded-full transition-colors duration-200 lg:hidden"
+              style={{ background: 'var(--tint)', border: '1px solid var(--tint-border)', color: 'var(--text)' }}
+            >
+              {open ? <X size={18} /> : <Menu size={18} />}
+            </button>
           </div>
-        </div>
-      </motion.nav>
+        </nav>
+      </motion.header>
 
-      {/* ── Premium Fullscreen Mobile Menu ───────────────── */}
+      {/* Mobile overlay */}
+      <div
+        className={`fixed inset-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
+          open ? 'opacity-100' : 'pointer-events-none opacity-0'
+        }`}
+        onClick={closeMenu}
+      />
+
+      {/* Mobile glass panel */}
       <AnimatePresence>
         {open && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="fixed inset-0 z-40 lg:hidden"
-              style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(6px)' }}
-              onClick={() => setOpen(false)}
-            />
-
-            {/* Menu panel — slides from right */}
-            <motion.div
-              initial={{ x: '100%', opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: '100%', opacity: 0 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 35 }}
-              className="fixed top-0 right-0 bottom-0 z-50 lg:hidden flex flex-col"
-              style={{
-                width: 'min(85vw, 360px)',
-                background: 'var(--bg)',
-                borderLeft: '1px solid var(--border)',
-                boxShadow: '-20px 0 60px rgba(0,0,0,0.4)',
-              }}
-            >
-              {/* Header */}
-              <div className="flex items-center justify-between px-6 pt-5 pb-4"
-                style={{ borderBottom: '1px solid var(--border)' }}>
-                <Link href="/" onClick={() => setOpen(false)}>
-                  <Image src="/images/logo.png"       alt="RUARA" width={90} height={36} className="object-contain logo-dark" />
-                  <Image src="/images/logo-light.png" alt="RUARA" width={90} height={36} className="object-contain logo-light" />
-                </Link>
-                <button onClick={() => setOpen(false)}
-                  className="w-10 h-10 rounded-xl flex items-center justify-center"
-                  style={{ background: 'var(--card-bg)', border: '1px solid var(--border)', color: 'var(--text-2)' }}>
-                  <X size={18} />
-                </button>
-              </div>
-
-              {/* Nav links */}
-              <nav className="flex-1 flex flex-col px-4 py-6 gap-1 overflow-y-auto">
-                {links.map((l, i) => (
-                  <motion.div key={l.label}
-                    initial={{ opacity: 0, x: 20 }}
+          <motion.div
+            initial={{ opacity: 0, y: -16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed left-3 right-3 top-[80px] z-50 overflow-hidden rounded-3xl backdrop-blur-2xl sm:left-4 sm:right-4 sm:top-[92px] lg:hidden"
+            style={{ background: 'var(--glass-bg-strong)', border: '1px solid var(--glass-border)', boxShadow: '0 8px 32px var(--shadow)' }}
+          >
+            <nav className="flex flex-col p-3">
+              {links.map((l, i) => {
+                const active = isActive(l.href)
+                return (
+                  <motion.div
+                    key={l.href}
+                    initial={{ opacity: 0, x: 16 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.06, duration: 0.3 }}>
-                    <Link href={l.href} onClick={() => setOpen(false)}
-                      className="flex items-center justify-between px-4 py-4 rounded-xl transition-all duration-200 group"
-                      style={{ color: 'var(--text)', border: '1px solid transparent' }}
-                      onMouseEnter={e => {
-                        e.currentTarget.style.background = 'var(--card-bg)'
-                        e.currentTarget.style.borderColor = 'var(--border)'
-                      }}
-                      onMouseLeave={e => {
-                        e.currentTarget.style.background = 'transparent'
-                        e.currentTarget.style.borderColor = 'transparent'
-                      }}>
-                      <span className="font-bold text-lg" style={{ fontFamily: 'var(--font)', letterSpacing: '0.04em' }}>
-                        {l.label}
-                      </span>
-                      <ArrowRight size={16} style={{ color: 'var(--gold)', opacity: 0.7 }} />
+                    transition={{ delay: i * 0.04, duration: 0.25 }}
+                  >
+                    <Link
+                      href={l.href}
+                      onClick={closeMenu}
+                      className="block rounded-2xl px-4 py-3.5 text-base font-medium tracking-wide transition-colors duration-200"
+                      style={active
+                        ? { background: 'var(--tint-strong)', color: 'var(--text)' }
+                        : { color: 'var(--text-2)' }}
+                    >
+                      {l.label}
                     </Link>
                   </motion.div>
-                ))}
-              </nav>
+                )
+              })}
+            </nav>
 
-              {/* Bottom CTAs */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35 }}
-                className="px-5 pb-8 pt-4 flex flex-col gap-3"
-                style={{ borderTop: '1px solid var(--border)' }}>
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer"
-                  className="btn-gold w-full flex items-center justify-center gap-2 py-4"
-                  onClick={() => setOpen(false)}>
-                  <MessageCircle size={18} />Escríbenos por WhatsApp
+            <div className="flex items-center justify-between gap-3 px-5 py-4" style={{ borderTop: '1px solid var(--border)' }}>
+              <div className="flex items-center gap-3">
+                <ThemeToggle />
+                <a
+                  href={INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                  className="flex h-9 w-9 items-center justify-center rounded-full transition-colors duration-200"
+                  style={{ background: 'var(--tint)', border: '1px solid var(--tint-border)', color: 'var(--text-2)' }}
+                >
+                  <Instagram size={15} />
                 </a>
-                <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer"
-                  className="btn-glass w-full flex items-center justify-center gap-2 py-3"
-                  onClick={() => setOpen(false)}>
-                  <Instagram size={16} />@ruaraautosold
-                </a>
-              </motion.div>
-            </motion.div>
-          </>
+              </div>
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={closeMenu}
+                className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-all duration-300"
+                style={{ background: 'var(--accent)', color: 'var(--accent-text)' }}
+              >
+                <MessageCircle size={15} />WhatsApp
+              </a>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </>

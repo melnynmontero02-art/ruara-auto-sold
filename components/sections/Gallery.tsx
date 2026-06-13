@@ -29,7 +29,7 @@ export default function Gallery() {
           <motion.h2 initial={{ opacity:0,y:22 }} animate={inView?{opacity:1,y:0}:{}} transition={{ duration:0.7,delay:0.08 }}
             className="text-4xl md:text-5xl font-bold mb-4"
             style={{ color:'var(--text)',  fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif', letterSpacing:'0.04em' }}>
-            GALERÍA <span className="gold-text">PREMIUM</span>
+            GALERÍA <span className="text-accent">PREMIUM</span>
           </motion.h2>
         </div>
 
@@ -51,7 +51,7 @@ export default function Gallery() {
                     onError={()=>handleErr(img)}/>
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(201,163,82,0.2)" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M5 17H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1l2-4h12l2 4h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2"/>
                       <circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/>
                     </svg>
@@ -60,12 +60,12 @@ export default function Gallery() {
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
                   style={{ background:'rgba(6,7,10,0.5)' }}>
                   <div className="w-11 h-11 rounded-full flex items-center justify-center"
-                    style={{ background:'rgba(201,163,82,0.9)', boxShadow:'0 0 20px rgba(201,163,82,0.4)' }}>
-                    <ZoomIn size={16} color="#060709"/>
+                    style={{ background:'var(--accent)', boxShadow:'0 0 20px var(--shadow)' }}>
+                    <ZoomIn size={16} color="var(--accent-text)"/>
                   </div>
                 </div>
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-xl"
-                  style={{ border:'1px solid rgba(201,163,82,0.3)' }}/>
+                  style={{ border:'1px solid var(--text-3)' }}/>
               </div>
             </motion.div>
           ))}

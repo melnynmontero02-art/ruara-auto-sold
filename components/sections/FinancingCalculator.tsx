@@ -24,7 +24,7 @@ function AnimVal({ value }: { value: number }) {
 }
 
 const fill = (v: number, min: number, max: number) =>
-  `linear-gradient(to right, #C9A352 ${((v-min)/(max-min))*100}%, rgba(255,255,255,0.08) 0%)`
+  `linear-gradient(to right, var(--accent) ${((v-min)/(max-min))*100}%, var(--tint-strong) 0%)`
 
 export default function FinancingCalculator() {
   const [price, setPrice]   = useState(2_500_000)
@@ -49,7 +49,7 @@ export default function FinancingCalculator() {
   return (
     <section id="financiamiento" style={{ background:'var(--surface)', padding:'clamp(48px, 8vw, 96px) 0', position:'relative' }}>
       <div className="absolute inset-0 pointer-events-none"
-        style={{ background:'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(201,163,82,0.04) 0%, transparent 70%)' }}/>
+        style={{ background:'radial-gradient(ellipse 60% 50% at 50% 50%, var(--tint) 0%, transparent 70%)' }}/>
 
       <div className="max-w-6xl mx-auto px-6 relative">
         <div ref={ref} className="text-center mb-14">
@@ -58,7 +58,7 @@ export default function FinancingCalculator() {
           <motion.h2 initial={{ opacity:0,y:22 }} animate={inView?{opacity:1,y:0}:{}} transition={{ duration:0.7,delay:0.08 }}
             className="text-4xl md:text-5xl font-bold mb-4"
             style={{ color:'var(--text)',  fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif', letterSpacing:'0.04em' }}>
-            CALCULA TU <span className="gold-text">CUOTA</span>
+            CALCULA TU <span className="text-accent">CUOTA</span>
           </motion.h2>
         </div>
 
@@ -69,7 +69,7 @@ export default function FinancingCalculator() {
           <div className="rounded-2xl p-8"
             style={{ background:'var(--card-bg)', border:'1px solid var(--border)' }}>
             <h3 className="text-xs font-bold tracking-widest uppercase mb-8"
-              style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif', color:'#C9A352' }}>Configurar Crédito</h3>
+              style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif', color:'var(--text-3)' }}>Configurar Crédito</h3>
 
             {[
               { label:'Precio del Vehículo', val:price, set:setPrice, min:800_000, max:8_000_000, step:50_000,
@@ -82,7 +82,7 @@ export default function FinancingCalculator() {
               <div key={i} className="mb-8">
                 <div className="flex justify-between mb-3">
                   <label className="text-sm" style={{ color:'var(--text-2)' }}>{s.label}</label>
-                  <span className="text-sm font-bold" style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif', color:'#C9A352' }}>{s.fmt()}</span>
+                  <span className="text-sm font-bold" style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif', color:'var(--text)' }}>{s.fmt()}</span>
                 </div>
                 <input type="range" min={s.min} max={s.max} step={s.step} value={s.val}
                   onChange={e=>s.set(Number(e.target.value))}
@@ -98,11 +98,11 @@ export default function FinancingCalculator() {
           {/* Results */}
           <div className="flex flex-col gap-5">
             <div className="rounded-2xl p-8 relative overflow-hidden"
-              style={{ background:'linear-gradient(135deg,rgba(201,163,82,0.12),rgba(201,163,82,0.04))', border:'1px solid rgba(201,163,82,0.2)' }}>
+              style={{ background:'linear-gradient(135deg, var(--tint-strong), var(--tint))', border:'1px solid var(--tint-border)' }}>
               <div className="absolute top-0 right-0 w-32 h-32 pointer-events-none"
-                style={{ background:'radial-gradient(circle,rgba(201,163,82,0.15),transparent 70%)', transform:'translate(30%,-30%)' }}/>
-              <div className="text-xs font-bold tracking-widest uppercase mb-3" style={{ color:'#C9A352' }}>Cuota Mensual Estimada</div>
-              <div className="text-5xl font-bold mb-1 gold-text" style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif' }}>
+                style={{ background:'radial-gradient(circle, var(--tint-strong), transparent 70%)', transform:'translate(30%,-30%)' }}/>
+              <div className="text-xs font-bold tracking-widest uppercase mb-3" style={{ color:'var(--text-3)' }}>Cuota Mensual Estimada</div>
+              <div className="text-5xl font-bold mb-1 text-accent" style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif' }}>
                 <AnimVal value={Math.round(monthly)}/>
               </div>
               <div className="text-sm" style={{ color:'var(--text-2)' }}>por mes — {months} meses</div>
@@ -112,14 +112,14 @@ export default function FinancingCalculator() {
               {[
                 { label:'Precio del vehículo', value:price },
                 { label:`Inicial (${pct}%)`, value:initial },
-                { label:'Monto a financiar', value:financed, gold:true },
+                { label:'Monto a financiar', value:financed, highlight:true },
                 { label:'Costo total', value:total },
               ].map((r,i) => (
                 <div key={i} className="flex justify-between items-center"
                   style={i>0?{borderTop:'1px solid var(--border)',paddingTop:'12px',marginTop:'12px'}:{}}>
                   <span className="text-sm" style={{ color:'var(--text-2)' }}>{r.label}</span>
                   <span className="text-sm font-semibold"
-                    style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif', color:r.gold?'#C9A352':'#FFFFFF' }}>
+                    style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif', color:r.highlight?'var(--text)':'var(--text-2)' }}>
                     {formatCurrency(r.value)}
                   </span>
                 </div>
@@ -136,7 +136,7 @@ export default function FinancingCalculator() {
             </div>
 
             <a href={`${WHATSAPP_URL}?text=${wa}`} target="_blank" rel="noopener noreferrer"
-              className="btn-gold flex items-center justify-center gap-2 w-full py-4 text-sm">
+              className="btn-primary flex items-center justify-center gap-2 w-full py-4 text-sm">
               <MessageCircle size={16}/>Solicitar Aprobación Ahora
             </a>
           </div>

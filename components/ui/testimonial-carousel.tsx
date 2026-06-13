@@ -29,7 +29,7 @@ function Card({ t, borderType }: { t: Testimonial; borderType: Props['borderType
       {/* Stars */}
       <div className="flex gap-1">
         {Array.from({ length: 5 }).map((_, i) => (
-          <Star key={i} size={13} style={{ color: '#C9A352', fill: '#C9A352' }} />
+          <Star key={i} size={13} style={{ color: 'var(--text)', fill: 'var(--text)' }} />
         ))}
       </div>
 
@@ -50,7 +50,7 @@ function Card({ t, borderType }: { t: Testimonial; borderType: Props['borderType
         ) : (
           <div
             className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0"
-            style={{ background: 'linear-gradient(135deg, #8B6A20, #C9A352)', color: '#060709' }}
+            style={{ background: 'var(--accent)', color: 'var(--accent-text)' }}
           >
             {t.name.charAt(0)}
           </div>

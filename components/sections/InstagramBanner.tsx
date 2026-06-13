@@ -19,8 +19,8 @@ export default function InstagramBanner() {
           <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer"
             className="group flex flex-col md:flex-row items-center justify-between gap-8 rounded-2xl p-8 md:p-10 transition-all duration-400"
             style={{ background:'var(--card-bg)', border:'1px solid var(--border)' }}
-            onMouseEnter={e=>{ e.currentTarget.style.boxShadow='0 20px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(201,163,82,0.2)'; e.currentTarget.style.transform='translateY(-3px)'; e.currentTarget.style.borderColor='rgba(201,163,82,0.2)' }}
-            onMouseLeave={e=>{ e.currentTarget.style.boxShadow='none'; e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.borderColor='rgba(255,255,255,0.07)' }}>
+            onMouseEnter={e=>{ e.currentTarget.style.boxShadow='0 20px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(148,163,184,0.2)'; e.currentTarget.style.transform='translateY(-3px)'; e.currentTarget.style.borderColor='var(--text-3)' }}
+            onMouseLeave={e=>{ e.currentTarget.style.boxShadow='none'; e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.borderColor='var(--border)' }}>
 
             <div className="flex items-center gap-5">
               <div className="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0"
@@ -36,7 +36,7 @@ export default function InstagramBanner() {
             </div>
 
             <div className="flex items-center gap-3 px-6 py-3 rounded-xl font-semibold text-sm tracking-wide flex-shrink-0 transition-all duration-300"
-              style={{ background:'rgba(201,163,82,0.08)', border:'1px solid rgba(201,163,82,0.2)', color:'#C9A352' }}>
+              style={{ background:'var(--tint)', border:'1px solid var(--tint-border)', color:'var(--text)' }}>
               Ver perfil
               <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200"/>
             </div>

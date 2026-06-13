@@ -7,23 +7,6 @@ import { WHATSAPP_URL } from '@/lib/data'
 
 const BRANDS_LIST = ['Toyota','Honda','Nissan','Hyundai','Kia','Ford','Chevrolet','Mazda','Mitsubishi','Suzuki','Volkswagen','BMW','Mercedes','Otro']
 
-const inp: React.CSSProperties = {
-  width:'100%', background:'var(--inp-bg)',
-  border:'1.5px solid rgba(255,255,255,0.08)', borderRadius:'10px',
-  padding:'12px 16px', fontSize:'14px', color:'var(--text)', outline:'none',
-  transition:'all 0.2s', fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif',
-}
-const foc = (e: React.FocusEvent<HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement>) => {
-  e.target.style.borderColor = 'rgba(201,163,82,0.5)'
-  e.target.style.background  = 'rgba(255,255,255,0.07)'
-  e.target.style.boxShadow   = '0 0 0 3px rgba(201,163,82,0.08)'
-}
-const blr = (e: React.FocusEvent<HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement>) => {
-  e.target.style.borderColor = 'rgba(255,255,255,0.08)'
-  e.target.style.background  = 'rgba(255,255,255,0.04)'
-  e.target.style.boxShadow   = 'none'
-}
-
 export default function SellVehicle() {
   const ref    = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-60px' })
@@ -62,7 +45,7 @@ export default function SellVehicle() {
             <motion.h2 initial={{ opacity:0,y:22 }} animate={inView?{opacity:1,y:0}:{}} transition={{ duration:0.7,delay:0.08 }}
               className="text-4xl md:text-5xl font-bold mb-6"
               style={{ color:'var(--text)',  fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif', letterSpacing:'0.04em', lineHeight:1.2 }}>
-              VENDE TU<br/><span className="gold-text">VEHÍCULO</span>
+              VENDE TU<br/><span className="text-accent">VEHÍCULO</span>
             </motion.h2>
             <motion.p initial={{ opacity:0,y:14 }} animate={inView?{opacity:1,y:0}:{}} transition={{ duration:0.6,delay:0.14 }}
               className="text-lg leading-relaxed mb-8" style={{ color:'var(--text-2)' }}>
@@ -81,10 +64,10 @@ export default function SellVehicle() {
                 transition={{ duration:0.6, delay:0.2+i*0.08 }}
                 className="flex items-center gap-4 mb-5">
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ background:'rgba(201,163,82,0.08)', border:'1px solid rgba(201,163,82,0.15)', color:'#C9A352' }}>
+                  style={{ background:'var(--tint)', border:'1px solid var(--tint-border)', color:'var(--text)' }}>
                   {b.icon}
                 </div>
-                <span className="text-white/70">{b.text}</span>
+                <span style={{ color:'var(--text-2)' }}>{b.text}</span>
               </motion.div>
             ))}
           </div>
@@ -94,7 +77,7 @@ export default function SellVehicle() {
             <div className="rounded-2xl p-8"
               style={{ background:'var(--card-bg)', border:'1px solid var(--border)' }}>
               <h3 className="text-xs font-bold tracking-widest uppercase mb-7"
-                style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif', color:'#C9A352' }}>
+                style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif', color:'var(--text-3)' }}>
                 Datos de tu vehículo
               </h3>
 
@@ -149,11 +132,11 @@ export default function SellVehicle() {
 
                 <div>
                   <label className="block text-xs mb-1.5" style={{ color:'var(--text-2)' }}>Notas adicionales</label>
-                  <textarea name="notes" rows={3} placeholder="Accesorios, historial, detalle que quieras compartir..." value={form.notes} onChange={ch} 
-                    style={{ ...inp, resize:'none' }}/>
+                  <textarea name="notes" rows={3} placeholder="Accesorios, historial, detalle que quieras compartir..." value={form.notes} onChange={ch}
+                    className="neu-input" style={{ resize:'none' }}/>
                 </div>
 
-                <button type="submit" className="btn-gold w-full flex items-center justify-center gap-2 py-4 mt-2">
+                <button type="submit" className="btn-primary w-full flex items-center justify-center gap-2 py-4 mt-2">
                   <Send size={14}/>Enviar por WhatsApp
                 </button>
               </form>

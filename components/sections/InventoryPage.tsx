@@ -21,7 +21,7 @@ const PRICES = [
 ]
 
 const tagStyle: Record<string, { bg: string; color: string }> = {
-  PREMIUM:    { bg: 'rgba(201,163,82,0.12)', color: '#C9A352' },
+  PREMIUM:    { bg: 'rgba(148,163,184,0.16)', color: '#E2E8F0' },
   NUEVO:      { bg: 'rgba(59,130,246,0.12)', color: '#60A5FA' },
   DISPONIBLE: { bg: 'rgba(34,197,94,0.10)',  color: '#4ade80' },
   OFERTA:     { bg: 'rgba(239,68,68,0.10)',  color: '#f87171' },
@@ -68,7 +68,7 @@ function VehicleModal({ v, onClose }: { v: Vehicle; onClose: () => void }) {
           </div>
           <div className="flex-1 p-7 flex flex-col">
             <div className="mb-5">
-              <div className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color:'var(--gold)' }}>{v.brand}</div>
+              <div className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color:'var(--text)' }}>{v.brand}</div>
               <h2 className="text-2xl font-bold leading-tight mb-1"
                 style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif', fontSize:'1.15rem', letterSpacing:'0.04em', color:'var(--text)' }}>{v.model}</h2>
               <div className="text-sm" style={{ color:'var(--text-2)' }}>{v.year} · {v.type}</div>
@@ -82,14 +82,14 @@ function VehicleModal({ v, onClose }: { v: Vehicle; onClose: () => void }) {
                 ...(v.seats?[{ icon:<Users size={13}/>, label:'Pasajeros', value:v.seats }]:[]),
               ].map((s,i) => (
                 <div key={i} className="rounded-xl p-3" style={{ background:'var(--card-bg)', border:'1px solid var(--border)' }}>
-                  <div className="flex items-center gap-1.5 mb-1" style={{ color:'var(--gold)' }}>
+                  <div className="flex items-center gap-1.5 mb-1" style={{ color:'var(--text)' }}>
                     {s.icon}<span className="text-xs" style={{ color:'var(--text-3)' }}>{s.label}</span>
                   </div>
                   <div className="text-sm font-semibold" style={{ color:'var(--text)' }}>{s.value}</div>
                 </div>
               ))}
             </div>
-            <div className="rounded-xl p-4 mb-5" style={{ background:'rgba(201,163,82,0.07)', border:'1px solid rgba(201,163,82,0.15)' }}>
+            <div className="rounded-xl p-4 mb-5" style={{ background:'var(--tint)', border:'1px solid var(--tint-border)' }}>
               <div className="flex items-end justify-between">
                 <div>
                   <div className="text-xs mb-1" style={{ color:'var(--text-3)' }}>Precio</div>
@@ -97,13 +97,13 @@ function VehicleModal({ v, onClose }: { v: Vehicle; onClose: () => void }) {
                 </div>
                 <div className="text-right">
                   <div className="text-xs mb-1" style={{ color:'var(--text-3)' }}>Inicial desde</div>
-                  <div className="text-lg font-semibold gold-text" style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif' }}>{formatCurrency(v.initial)}</div>
+                  <div className="text-lg font-semibold text-accent" style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif' }}>{formatCurrency(v.initial)}</div>
                 </div>
               </div>
             </div>
             <div className="flex gap-3 mt-auto">
               <a href={`${WHATSAPP_URL}?text=${wa}`} target="_blank" rel="noopener noreferrer"
-                className="btn-gold flex-1 flex items-center justify-center gap-2 py-3">
+                className="btn-primary flex-1 flex items-center justify-center gap-2 py-3">
                 <MessageCircle size={14}/>Consultar por WhatsApp
               </a>
               <Link href="/#financiamiento"
@@ -124,7 +124,6 @@ function Card({ v, onOpen }: { v: Vehicle; onOpen: ()=>void }) {
   const [hover,  setHover]  = useState(false)
   const [imgSrc, setImgSrc] = useState(v.image)
   const [err,    setErr]    = useState(false)
-  const tag = tagStyle[v.tag] ?? tagStyle.DISPONIBLE
 
   const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const r = e.currentTarget.getBoundingClientRect()
@@ -147,41 +146,40 @@ function Card({ v, onOpen }: { v: Vehicle; onOpen: ()=>void }) {
         className="vehicle-card cursor-pointer"
         onClick={onOpen}>
         <motion.div
-          animate={hover ? { boxShadow:'0 20px 50px rgba(0,0,0,0.3), 0 0 0 1px rgba(201,163,82,0.25)' } : { boxShadow:'0 4px 20px rgba(0,0,0,0.1)' }}
+          animate={hover ? { boxShadow:'0 20px 50px rgba(0,0,0,0.3), 0 0 0 1px rgba(148,163,184,0.25)' } : { boxShadow:'0 4px 20px rgba(0,0,0,0.1)' }}
           transition={{ duration:0.3 }}
-          style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:'16px', overflow:'hidden' }}>
-          <div className="relative h-48 overflow-hidden" style={{ background:'var(--surface)' }}>
+          style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:'24px', overflow:'hidden' }}>
+          <div className="relative w-full h-[280px] flex items-center justify-center overflow-hidden" style={{ background:'#F5F5F5' }}>
             {!err ? (
-              <Image src={imgSrc} alt={`${v.brand} ${v.model}`} fill className="object-cover"
+              <Image src={imgSrc} alt={`${v.brand} ${v.model}`} fill
+                className="object-contain object-center p-4"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 style={{ transition:'transform 0.6s ease', transform:hover?'scale(1.05)':'scale(1)' }}
                 onError={() => { if(imgSrc!==v.fallback)setImgSrc(v.fallback); else setErr(true) }}/>
             ) : (
               <div className="absolute inset-0 flex items-center justify-center">
-                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(201,163,82,0.2)" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M5 17H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1l2-4h12l2 4h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2"/>
                   <circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/>
                 </svg>
               </div>
             )}
-            <div className="absolute inset-0 pointer-events-none" style={{ background:'linear-gradient(180deg,transparent 50%,rgba(0,0,0,0.4) 100%)' }}/>
-            <div className="absolute top-3 left-3 px-2 py-0.5 rounded-md text-xs font-bold tracking-wider"
-              style={{ background:tag.bg, color:tag.color }}>{v.tag}</div>
             {v.verified && (
-              <div className="absolute top-3 right-3 flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold"
-                style={{ background:'rgba(34,197,94,0.1)', color:'#4ade80' }}>
-                <ShieldCheck size={10}/>OK
+              <div className="absolute top-3 left-3 flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold"
+                style={{ background:'rgba(255,255,255,0.9)', color:'#16a34a', border:'1px solid rgba(34,197,94,0.25)', backdropFilter:'blur(6px)' }}>
+                <ShieldCheck size={10}/>Verificado RUARA
               </div>
             )}
             <motion.div animate={{ opacity:hover?1:0 }} transition={{ duration:0.2 }}
-              className="absolute inset-0 flex items-center justify-center"
-              style={{ background:'rgba(0,0,0,0.35)' }}>
-              <div className="px-3 py-1.5 rounded-full text-white text-xs font-semibold"
-                style={{ background:'rgba(201,163,82,0.9)' }}>Ver detalles</div>
+              className="absolute inset-x-0 bottom-0 flex items-center justify-center pb-3 pt-10"
+              style={{ background:'linear-gradient(to top, rgba(0,0,0,0.28), transparent)' }}>
+              <div className="px-3 py-1.5 rounded-full text-xs font-semibold"
+                style={{ background:'var(--accent)', color:'var(--accent-text)' }}>Ver detalles</div>
             </motion.div>
           </div>
           <div className="p-4">
             <div className="mb-2">
-              <div className="text-xs font-bold tracking-widest uppercase" style={{ color:'var(--gold)' }}>{v.brand}</div>
+              <div className="text-xs font-bold tracking-widest uppercase" style={{ color:'var(--text)' }}>{v.brand}</div>
               <h3 className="font-bold leading-tight"
                 style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif', fontSize:'0.82rem', letterSpacing:'0.03em', color:'var(--text)' }}>{v.model}</h3>
               <div className="text-xs mt-0.5" style={{ color:'var(--text-3)' }}>{v.year} · {v.mileage} · {v.type}</div>
@@ -189,7 +187,7 @@ function Card({ v, onOpen }: { v: Vehicle; onOpen: ()=>void }) {
             <div className="flex items-end justify-between pt-3" style={{ borderTop:'1px solid var(--border)' }}>
               <div>
                 <div className="text-xs mb-0.5" style={{ color:'var(--text-3)' }}>Precio</div>
-                <div className="text-base font-bold gold-text" style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif' }}>{formatCurrency(v.price)}</div>
+                <div className="text-base font-bold text-accent" style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif' }}>{formatCurrency(v.price)}</div>
               </div>
               <div className="text-right">
                 <div className="text-xs mb-0.5" style={{ color:'var(--text-3)' }}>Inicial desde</div>
@@ -224,7 +222,7 @@ export default function InventoryPage() {
       <div className="mb-10">
         <Link href="/" className="inline-flex items-center gap-2 mb-6 text-sm transition-colors"
           style={{ color:'var(--text-2)' }}
-          onMouseEnter={e=>(e.currentTarget.style.color='var(--gold)')}
+          onMouseEnter={e=>(e.currentTarget.style.color='var(--text)')}
           onMouseLeave={e=>(e.currentTarget.style.color='var(--text-2)')}>
           <ArrowLeft size={14}/>Volver al inicio
         </Link>
@@ -233,7 +231,7 @@ export default function InventoryPage() {
             <div className="section-label mb-4 w-fit"><Tag size={10}/>Disponibles ahora</div>
             <h1 className="text-4xl md:text-5xl font-bold mb-2"
               style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif', letterSpacing:'0.04em', color:'var(--text)' }}>
-              NUESTRO <span className="gold-text">INVENTARIO</span>
+              NUESTRO <span className="text-accent">INVENTARIO</span>
             </h1>
             <p style={{ color:'var(--text-2)' }}>Haz clic en cualquier vehículo para ver todos los detalles.</p>
           </div>
@@ -242,7 +240,7 @@ export default function InventoryPage() {
             style={{ background:'var(--card-bg)', border:'1px solid var(--border)', color:'var(--text-2)' }}>
             <SlidersHorizontal size={15}/>Filtros
             {(brand!=='Todos'||type!=='Todos'||priceIdx!==0) && (
-              <span className="w-2 h-2 rounded-full" style={{ background:'var(--gold)' }}/>
+              <span className="w-2 h-2 rounded-full" style={{ background:'var(--text)' }}/>
             )}
           </button>
         </div>
@@ -299,7 +297,7 @@ export default function InventoryPage() {
 
       {/* Grid */}
       {filtered.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {filtered.map(v => <Card key={v.id} v={v} onOpen={() => window.location.href = `/inventario/${v.id}`}/>)}
         </div>
       ) : (

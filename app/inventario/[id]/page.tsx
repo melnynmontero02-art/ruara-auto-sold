@@ -38,7 +38,7 @@ export default async function Page({ params }: Props) {
     <>
       <ScrollProgress />
       <Navbar />
-      <main style={{ background: 'var(--bg)', minHeight: '100vh', paddingTop: '70px' }}>
+      <main style={{ background: 'var(--bg)', minHeight: '100vh', paddingTop: '104px' }}>
         <VehicleDetail vehicle={vehicle} />
       </main>
       <Footer />

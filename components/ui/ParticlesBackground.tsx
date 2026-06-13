@@ -23,8 +23,8 @@ export default function ParticlesBackground() {
     let particles: Particle[] = []
 
     const palette = [
-      { r: 201, g: 163, b: 82 },  // gold
-      { r: 245, g: 223, b: 160 }, // gold light
+      { r: 148, g: 163, b: 184 }, // slate
+      { r: 226, g: 232, b: 240 }, // slate light
       { r: 255, g: 255, b: 255 }, // white
     ]
 

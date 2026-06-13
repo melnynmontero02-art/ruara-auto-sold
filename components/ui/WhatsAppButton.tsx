@@ -46,14 +46,14 @@ export default function WhatsAppButton() {
         <span
           className="absolute inset-0 rounded-full"
           style={{
-            animation: 'pulseGold 2.5s cubic-bezier(0.4,0,0.6,1) infinite',
+            animation: 'pulseRing 2.5s cubic-bezier(0.4,0,0.6,1) infinite',
             background: 'rgba(37, 211, 102, 0.3)',
           }}
         />
         <span
           className="absolute inset-0 rounded-full"
           style={{
-            animation: 'pulseGold 2.5s cubic-bezier(0.4,0,0.6,1) 0.8s infinite',
+            animation: 'pulseRing 2.5s cubic-bezier(0.4,0,0.6,1) 0.8s infinite',
             background: 'rgba(37, 211, 102, 0.2)',
           }}
         />

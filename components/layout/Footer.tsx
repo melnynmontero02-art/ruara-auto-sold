@@ -58,7 +58,7 @@ export default function Footer() {
     >
       {/* Top border */}
       <div className="absolute top-0 left-0 right-0 h-px"
-        style={{ background: 'linear-gradient(90deg,transparent,rgba(201,163,82,0.4),transparent)' }}/>
+        style={{ background: 'linear-gradient(90deg,transparent,var(--border),transparent)' }}/>
 
       <motion.div
         variants={containerVariants}
@@ -70,7 +70,7 @@ export default function Footer() {
         {/* Tagline */}
         <motion.p variants={itemVariants}
           className="text-xs font-semibold tracking-[0.22em] uppercase mb-10"
-          style={{ color: 'var(--gold)' }}>
+          style={{ color: 'var(--text)' }}>
           Conduce tus Sueños.
         </motion.p>
 
@@ -119,9 +119,9 @@ export default function Footer() {
                   className="flex items-center justify-center w-9 h-9 rounded-full transition-all duration-200"
                   style={{ background: 'var(--card-bg)', border: '1px solid var(--border)', color: 'var(--text-2)' }}
                   onMouseEnter={e => {
-                    e.currentTarget.style.background = 'rgba(201,163,82,0.1)'
-                    e.currentTarget.style.borderColor = 'rgba(201,163,82,0.4)'
-                    e.currentTarget.style.color = 'var(--gold)'
+                    e.currentTarget.style.background = 'var(--tint-strong)'
+                    e.currentTarget.style.borderColor = 'var(--text-3)'
+                    e.currentTarget.style.color = 'var(--text)'
                   }}
                   onMouseLeave={e => {
                     e.currentTarget.style.background = 'var(--card-bg)'

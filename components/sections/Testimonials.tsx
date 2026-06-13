@@ -54,7 +54,7 @@ export default function Testimonials() {
     >
       {/* Subtle glow */}
       <div className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 60% 40% at 50% 50%, rgba(201,163,82,0.04) 0%, transparent 70%)' }} />
+        style={{ background: 'radial-gradient(ellipse 60% 40% at 50% 50%, var(--tint) 0%, transparent 70%)' }} />
 
       <div className="relative z-10 flex flex-col items-center gap-12 w-full max-w-6xl">
         {/* Header */}
@@ -67,7 +67,7 @@ export default function Testimonials() {
             transition={{ duration: 0.7 }}
             className="section-label"
           >
-            <span className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--gold)' }} />
+            <span className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--text)' }} />
             +500 clientes satisfechos
           </motion.div>
 
@@ -86,7 +86,7 @@ export default function Testimonials() {
                 className="mr-3 inline-block"
               >
                 {i === 3 || i === 4 ? (
-                  <span className="gold-text">{word}</span>
+                  <span className="text-accent">{word}</span>
                 ) : word}
               </motion.span>
             ))}

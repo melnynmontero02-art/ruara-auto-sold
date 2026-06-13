@@ -29,7 +29,7 @@ export default function ThemeToggle() {
     <div className="flex items-center gap-2.5 select-none">
       {/* Moon icon */}
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-        stroke={isDay ? 'rgba(255,255,255,0.3)' : '#C9A352'}
+        stroke={isDay ? 'var(--text-3)' : 'var(--text)'}
         strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
         style={{ transition: 'stroke 0.3s', flexShrink: 0 }}>
         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
@@ -59,7 +59,7 @@ export default function ThemeToggle() {
 
       {/* Sun icon */}
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-        stroke={isDay ? '#C9A352' : 'rgba(255,255,255,0.3)'}
+        stroke={isDay ? 'var(--text)' : 'var(--text-3)'}
         strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
         style={{ transition: 'stroke 0.3s', flexShrink: 0 }}>
         <circle cx="12" cy="12" r="5"/>

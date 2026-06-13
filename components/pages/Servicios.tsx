@@ -69,16 +69,16 @@ export default function Servicios() {
       {/* ── Hero ─────────────────────────────────────────── */}
       <section className="relative overflow-hidden" style={{ background:'var(--surface)', padding:'clamp(60px,10vw,120px) 0' }}>
         <div className="absolute inset-0 pointer-events-none"
-          style={{ background:'radial-gradient(ellipse 70% 60% at 50% 50%, rgba(201,163,82,0.06) 0%, transparent 70%)' }}/>
+          style={{ background:'radial-gradient(ellipse 70% 60% at 50% 50%, var(--tint) 0%, transparent 70%)' }}/>
         <div className="max-w-3xl mx-auto px-5 text-center relative">
           <motion.div initial={{ opacity:0,y:14 }} animate={{ opacity:1,y:0 }} transition={{ duration:0.6 }}
             className="section-label mb-6 mx-auto w-fit">
-            <span className="w-1.5 h-1.5 rounded-full" style={{ background:'var(--gold)' }}/>Todo lo que necesitas
+            <span className="w-1.5 h-1.5 rounded-full" style={{ background:'var(--text)' }}/>Todo lo que necesitas
           </motion.div>
           <motion.h1 initial={{ opacity:0,y:22 }} animate={{ opacity:1,y:0 }} transition={{ duration:0.7,delay:0.1 }}
             className="font-bold mb-5"
             style={{ fontFamily:'var(--font)', fontSize:'clamp(2rem,5vw,3.5rem)', color:'var(--text)', lineHeight:1.1 }}>
-            Nuestros <span className="gold-text">Servicios</span>
+            Nuestros <span className="text-accent">Servicios</span>
           </motion.h1>
           <motion.p initial={{ opacity:0,y:16 }} animate={{ opacity:1,y:0 }} transition={{ duration:0.6,delay:0.2 }}
             style={{ color:'var(--text-2)', fontSize:'clamp(1rem,2vw,1.1rem)', maxWidth:'500px', margin:'0 auto' }}>
@@ -98,12 +98,12 @@ export default function Servicios() {
                 transition={{ duration:0.6, delay:i*0.08, ease:[0.16,1,0.3,1] }}
                 className="rounded-2xl p-7 flex flex-col transition-all duration-300"
                 style={{ background:'var(--card-bg)', border:'1px solid var(--border)' }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor='rgba(201,163,82,0.25)'; e.currentTarget.style.transform='translateY(-4px)'; e.currentTarget.style.boxShadow='0 20px 50px rgba(0,0,0,0.2)' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor='var(--text-3)'; e.currentTarget.style.transform='translateY(-4px)'; e.currentTarget.style.boxShadow='0 20px 50px rgba(0,0,0,0.2)' }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor='var(--border)'; e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='none' }}>
 
                 {/* Icon */}
                 <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 flex-shrink-0"
-                  style={{ background:'rgba(201,163,82,0.08)', border:'1px solid rgba(201,163,82,0.15)', color:'var(--gold)' }}>
+                  style={{ background:'var(--tint)', border:'1px solid var(--tint-border)', color:'var(--text)' }}>
                   {s.icon}
                 </div>
 
@@ -119,7 +119,7 @@ export default function Servicios() {
                 <div className="grid grid-cols-2 gap-2 mb-5">
                   {s.perks.map((p, pi) => (
                     <div key={pi} className="flex items-center gap-1.5 text-xs" style={{ color:'var(--text-2)' }}>
-                      <CheckCircle size={12} style={{ color:'var(--gold)', flexShrink:0 }}/>
+                      <CheckCircle size={12} style={{ color:'var(--text)', flexShrink:0 }}/>
                       {p}
                     </div>
                   ))}
@@ -133,7 +133,7 @@ export default function Servicios() {
                   </Link>
                 ) : (
                   <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer"
-                    className="btn-gold flex items-center justify-center gap-2 py-3 text-sm mt-auto">
+                    className="btn-primary flex items-center justify-center gap-2 py-3 text-sm mt-auto">
                     <MessageCircle size={14}/>{s.linkLabel}
                   </a>
                 )}
@@ -155,7 +155,7 @@ export default function Servicios() {
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer"
-              className="btn-gold flex items-center gap-2 py-4 px-8">
+              className="btn-primary flex items-center gap-2 py-4 px-8">
               <MessageCircle size={16}/>Hablar con un asesor
             </a>
             <Link href="/inventario" className="btn-glass flex items-center gap-2 py-4 px-8">

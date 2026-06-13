@@ -20,7 +20,7 @@ export default function VerifiedVehicles() {
     <section id="verificados" style={{ background: 'var(--surface)', padding: 'clamp(48px, 8vw, 96px) 0', position: 'relative', overflow: 'hidden' }}>
       {/* BG glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse, rgba(201,163,82,0.04) 0%, transparent 70%)' }} />
+        style={{ background: 'radial-gradient(ellipse, var(--tint) 0%, transparent 70%)' }} />
 
       <div className="max-w-7xl mx-auto px-6 relative">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
@@ -33,7 +33,7 @@ export default function VerifiedVehicles() {
             <motion.h2 initial={{ opacity:0,y:22 }} animate={inView?{opacity:1,y:0}:{}} transition={{ duration:0.7,delay:0.08 }}
               className="text-4xl md:text-5xl font-bold mb-6"
               style={{ color:'var(--text)',  fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif', letterSpacing:'0.04em', lineHeight:1.2 }}>
-              VEHÍCULOS<br/><span className="gold-text">VERIFICADOS</span>
+              VEHÍCULOS<br/><span className="text-accent">VERIFICADOS</span>
             </motion.h2>
             <motion.p initial={{ opacity:0,y:14 }} animate={inView?{opacity:1,y:0}:{}} transition={{ duration:0.6,delay:0.14 }}
               className="text-lg leading-relaxed mb-8" style={{ color:'var(--text-2)' }}>
@@ -41,7 +41,7 @@ export default function VerifiedVehicles() {
             </motion.p>
             <motion.a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer"
               initial={{ opacity:0,y:14 }} animate={inView?{opacity:1,y:0}:{}} transition={{ duration:0.6,delay:0.2 }}
-              className="btn-gold inline-flex">
+              className="btn-primary inline-flex">
               <MessageCircle size={15}/>Preguntar por un vehículo
             </motion.a>
           </div>
@@ -56,17 +56,17 @@ export default function VerifiedVehicles() {
                 className="rounded-2xl p-5 group transition-all duration-350"
                 style={{ background:'var(--card-bg)', border:'1px solid var(--border)' }}
                 onMouseEnter={e => {
-                  e.currentTarget.style.background = 'rgba(201,163,82,0.06)'
-                  e.currentTarget.style.borderColor = 'rgba(201,163,82,0.2)'
+                  e.currentTarget.style.background = 'var(--card-hover)'
+                  e.currentTarget.style.borderColor = 'var(--text-3)'
                   e.currentTarget.style.transform = 'translateY(-3px)'
                 }}
                 onMouseLeave={e => {
-                  e.currentTarget.style.background = 'rgba(255,255,255,0.03)'
-                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'
+                  e.currentTarget.style.background = 'var(--card-bg)'
+                  e.currentTarget.style.borderColor = 'var(--border)'
                   e.currentTarget.style.transform = 'translateY(0)'
                 }}>
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
-                  style={{ background:'rgba(201,163,82,0.08)', border:'1px solid rgba(201,163,82,0.15)', color:'#C9A352' }}>
+                  style={{ background:'var(--tint)', border:'1px solid var(--tint-border)', color:'var(--text)' }}>
                   {c.icon}
                 </div>
                 <h3 className="font-bold mb-2"

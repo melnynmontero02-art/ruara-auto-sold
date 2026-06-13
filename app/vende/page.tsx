@@ -15,7 +15,7 @@ export default function VendePage() {
     <>
       <ScrollProgress />
       <Navbar />
-      <main style={{ background: 'var(--bg)', minHeight: '100vh', paddingTop: '80px' }}>
+      <main style={{ background: 'var(--bg)', minHeight: '100vh', paddingTop: '104px' }}>
         <SellVehicle />
       </main>
       <Footer />

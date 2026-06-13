@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ShieldCheck, Globe, Users, Zap, Heart, Star, MessageCircle, ChevronRight } from 'lucide-react'
 import { WHATSAPP_URL, stats } from '@/lib/data'
+import Gallery from '@/components/sections/Gallery'
 
 const values = [
   { icon: <ShieldCheck size={24}/>, title: 'Confianza', desc: 'Transparencia total en cada proceso. Sin letra pequeña, sin sorpresas.' },
@@ -25,17 +26,17 @@ export default function Nosotros() {
       {/* ── Hero ─────────────────────────────────────────── */}
       <section className="relative overflow-hidden" style={{ background: 'var(--surface)', padding: 'clamp(60px,10vw,120px) 0' }}>
         <div className="absolute inset-0 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse 70% 60% at 50% 50%, rgba(201,163,82,0.06) 0%, transparent 70%)' }} />
+          style={{ background: 'radial-gradient(ellipse 70% 60% at 50% 50%, var(--tint) 0%, transparent 70%)' }} />
         <div className="max-w-4xl mx-auto px-5 text-center relative">
           <motion.div initial={{ opacity:0,y:14 }} animate={{ opacity:1,y:0 }} transition={{ duration:0.6 }}
             className="section-label mb-6 mx-auto w-fit">
-            <span className="w-1.5 h-1.5 rounded-full" style={{ background:'var(--gold)' }}/>Nuestra historia
+            <span className="w-1.5 h-1.5 rounded-full" style={{ background:'var(--text)' }}/>Nuestra historia
           </motion.div>
           <motion.h1 initial={{ opacity:0,y:22 }} animate={{ opacity:1,y:0 }} transition={{ duration:0.7,delay:0.1 }}
             className="font-bold mb-6"
             style={{ fontFamily:'var(--font)', fontSize:'clamp(2rem,5vw,3.5rem)', color:'var(--text)', lineHeight:1.1 }}>
             Más de 5 años conectando<br/>familias con su{' '}
-            <span className="gold-text">vehículo ideal</span>
+            <span className="text-accent">vehículo ideal</span>
           </motion.h1>
           <motion.p initial={{ opacity:0,y:16 }} animate={{ opacity:1,y:0 }} transition={{ duration:0.6,delay:0.2 }}
             style={{ color:'var(--text-2)', fontSize:'clamp(1rem,2vw,1.15rem)', maxWidth:'600px', margin:'0 auto 2rem' }}>
@@ -43,7 +44,7 @@ export default function Nosotros() {
           </motion.p>
           <motion.div initial={{ opacity:0,y:14 }} animate={{ opacity:1,y:0 }} transition={{ duration:0.6,delay:0.3 }}
             className="flex flex-wrap gap-4 justify-center">
-            <Link href="/inventario" className="btn-gold flex items-center gap-2">
+            <Link href="/inventario" className="btn-primary flex items-center gap-2">
               <ChevronRight size={16}/>Ver Inventario
             </Link>
             <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="btn-glass flex items-center gap-2">
@@ -64,7 +65,7 @@ export default function Nosotros() {
                 viewport={{ once:true }}
                 transition={{ duration:0.5, delay:i*0.1 }}
                 className="text-center">
-                <div className="font-bold gold-text mb-1"
+                <div className="font-bold text-accent mb-1"
                   style={{ fontFamily:'var(--font)', fontSize:'clamp(2rem,4vw,3rem)' }}>
                   {s.value}{s.suffix}
                 </div>
@@ -85,11 +86,11 @@ export default function Nosotros() {
               viewport={{ once:true }}
               transition={{ duration:0.7 }}>
               <div className="section-label mb-5 w-fit">
-                <span className="w-1.5 h-1.5 rounded-full" style={{ background:'var(--gold)' }}/>Quiénes somos
+                <span className="w-1.5 h-1.5 rounded-full" style={{ background:'var(--text)' }}/>Quiénes somos
               </div>
               <h2 className="font-bold mb-5"
                 style={{ fontFamily:'var(--font)', fontSize:'clamp(1.5rem,3vw,2.5rem)', color:'var(--text)', lineHeight:1.2 }}>
-                Un dealer que <span className="gold-text">se diferencia</span> por su honestidad
+                Un dealer que <span className="text-accent">se diferencia</span> por su honestidad
               </h2>
               <p className="mb-4" style={{ color:'var(--text-2)', lineHeight:1.75 }}>
                 Somos un dealer especializado en la importación y venta de vehículos japoneses y americanos en República Dominicana. Desde nuestro local en Santo Domingo Este, hemos ayudado a más de 500 familias a encontrar el vehículo de sus sueños.
@@ -101,8 +102,8 @@ export default function Nosotros() {
                 {['Importación directa desde Japón y USA', 'Inspección mecánica y documentación verificada', '8+ bancos aliados para financiamiento', 'Respuesta en menos de 24 horas'].map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
-                      style={{ background:'rgba(201,163,82,0.12)', border:'1px solid rgba(201,163,82,0.3)' }}>
-                      <ShieldCheck size={11} style={{ color:'var(--gold)' }}/>
+                      style={{ background:'var(--tint)', border:'1px solid var(--tint-border)' }}>
+                      <ShieldCheck size={11} style={{ color:'var(--text)' }}/>
                     </div>
                     <span style={{ color:'var(--text-2)', fontSize:'0.95rem' }}>{item}</span>
                   </div>
@@ -122,8 +123,8 @@ export default function Nosotros() {
                   style={{ background:'linear-gradient(180deg,transparent 50%,rgba(0,0,0,0.4) 100%)' }}/>
                 {/* Overlay badge */}
                 <div className="absolute bottom-5 left-5 right-5 rounded-xl p-4"
-                  style={{ background:'rgba(0,0,0,0.7)', backdropFilter:'blur(12px)', border:'1px solid rgba(201,163,82,0.2)' }}>
-                  <div className="font-bold mb-0.5 gold-text" style={{ fontFamily:'var(--font)', fontSize:'1.1rem' }}>RUARA AUTO SOLD</div>
+                  style={{ background:'rgba(0,0,0,0.7)', backdropFilter:'blur(12px)', border:'1px solid rgba(255,255,255,0.12)' }}>
+                  <div className="font-bold mb-0.5 text-accent" style={{ fontFamily:'var(--font)', fontSize:'1.1rem' }}>RUARA AUTO SOLD</div>
                   <div className="text-sm" style={{ color:'rgba(255,255,255,0.6)' }}>Calle Las Palmeras Orientales #1, Santo Domingo Este</div>
                 </div>
               </div>
@@ -132,18 +133,21 @@ export default function Nosotros() {
         </div>
       </section>
 
+      {/* ── Galería ──────────────────────────────────────── */}
+      <Gallery />
+
       {/* ── Values ───────────────────────────────────────── */}
       <section ref={ref} style={{ background:'var(--bg)', padding:'clamp(60px,8vw,100px) 0' }}>
         <div className="max-w-7xl mx-auto px-5">
           <div className="text-center mb-12">
             <motion.div initial={{ opacity:0,y:14 }} animate={inView?{opacity:1,y:0}:{}} transition={{ duration:0.6 }}
               className="section-label mb-5 mx-auto w-fit">
-              <span className="w-1.5 h-1.5 rounded-full" style={{ background:'var(--gold)' }}/>Nuestros valores
+              <span className="w-1.5 h-1.5 rounded-full" style={{ background:'var(--text)' }}/>Nuestros valores
             </motion.div>
             <motion.h2 initial={{ opacity:0,y:20 }} animate={inView?{opacity:1,y:0}:{}} transition={{ duration:0.7,delay:0.1 }}
               className="font-bold"
               style={{ fontFamily:'var(--font)', fontSize:'clamp(1.5rem,3vw,2.5rem)', color:'var(--text)' }}>
-              Lo que nos <span className="gold-text">define</span>
+              Lo que nos <span className="text-accent">define</span>
             </motion.h2>
           </div>
 
@@ -155,10 +159,10 @@ export default function Nosotros() {
                 transition={{ duration:0.6, delay:i*0.08 }}
                 className="rounded-2xl p-6 transition-all duration-300"
                 style={{ background:'var(--card-bg)', border:'1px solid var(--border)' }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor='rgba(201,163,82,0.25)'; e.currentTarget.style.transform='translateY(-3px)' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor='var(--text-3)'; e.currentTarget.style.transform='translateY(-3px)' }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor='var(--border)'; e.currentTarget.style.transform='translateY(0)' }}>
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-                  style={{ background:'rgba(201,163,82,0.08)', border:'1px solid rgba(201,163,82,0.15)', color:'var(--gold)' }}>
+                  style={{ background:'var(--tint)', border:'1px solid var(--tint-border)', color:'var(--text)' }}>
                   {v.icon}
                 </div>
                 <h3 className="font-bold mb-2" style={{ fontFamily:'var(--font)', color:'var(--text)', fontSize:'1.05rem' }}>{v.title}</h3>
@@ -179,7 +183,7 @@ export default function Nosotros() {
             Visítanos en Santo Domingo Este o escríbenos por WhatsApp. Estamos disponibles para ayudarte.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link href="/inventario" className="btn-gold flex items-center gap-2 py-4 px-8">
+            <Link href="/inventario" className="btn-primary flex items-center gap-2 py-4 px-8">
               Ver Inventario
             </Link>
             <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer"

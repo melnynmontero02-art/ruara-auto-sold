@@ -10,22 +10,22 @@ export function SectionHeading({
   label,
   labelIcon,
   title,
-  goldWord,
+  highlightWord,
   subtitle,
   center = true,
 }: {
   label?: string
   labelIcon?: React.ReactNode
   title: string
-  goldWord?: string
+  highlightWord?: string
   subtitle?: string
   center?: boolean
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
-  const titleParts = goldWord
-    ? title.split(goldWord)
+  const titleParts = highlightWord
+    ? title.split(highlightWord)
     : [title]
 
   return (
@@ -48,19 +48,19 @@ export function SectionHeading({
           initial={{ y: 80, opacity: 0 }}
           animate={inView ? { y: 0, opacity: 1 } : {}}
           transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1], delay: 0.08 }}
-          className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight"
-          style={{ fontFamily: 'Century Gothic, CenturyGothic, Josefin Sans, sans-serif', letterSpacing: '0.04em' }}
+          className="text-4xl md:text-5xl font-bold leading-tight"
+          style={{ color: 'var(--text)', fontFamily: 'Century Gothic, CenturyGothic, Josefin Sans, sans-serif', letterSpacing: '0.04em' }}
         >
-          {goldWord ? (
+          {highlightWord ? (
             <>
               {titleParts[0]}
               <span style={{
-                background: 'linear-gradient(135deg, #8B6A20, #C9A352)',
+                background: 'linear-gradient(135deg, var(--text) 0%, var(--text-2) 100%)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
               }}>
-                {goldWord}
+                {highlightWord}
               </span>
               {titleParts[1]}
             </>
@@ -73,7 +73,8 @@ export function SectionHeading({
           initial={{ opacity: 0, y: 16 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.18 }}
-          className={`text-gray-500 max-w-lg ${center ? 'mx-auto' : ''}`}
+          className={`max-w-lg ${center ? 'mx-auto' : ''}`}
+          style={{ color: 'var(--text-2)' }}
         >
           {subtitle}
         </motion.p>

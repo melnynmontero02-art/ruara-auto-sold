@@ -15,7 +15,7 @@ export default function ServiciosPage() {
     <>
       <ScrollProgress />
       <Navbar />
-      <main style={{ background: 'var(--bg)', minHeight: '100vh', paddingTop: '70px' }}>
+      <main style={{ background: 'var(--bg)', minHeight: '100vh', paddingTop: '104px' }}>
         <Servicios />
       </main>
       <Footer />

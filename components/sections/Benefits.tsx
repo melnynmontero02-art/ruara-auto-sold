@@ -22,12 +22,12 @@ export default function Benefits() {
         <div ref={ref} className="text-center mb-14">
           <motion.div initial={{ opacity:0,y:14 }} animate={inView?{opacity:1,y:0}:{}} transition={{ duration:0.6 }}
             className="section-label mb-5 mx-auto w-fit">
-            <span className="w-1.5 h-1.5 rounded-full" style={{ background:'#C9A352' }}/>La diferencia RUARA
+            <span className="w-1.5 h-1.5 rounded-full" style={{ background:'var(--text)' }}/>La diferencia RUARA
           </motion.div>
           <motion.h2 initial={{ opacity:0,y:22 }} animate={inView?{opacity:1,y:0}:{}} transition={{ duration:0.7,delay:0.08 }}
             className="text-4xl md:text-5xl font-bold mb-4"
             style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif', letterSpacing:'0.04em', color:'var(--text)' }}>
-            ¿POR QUÉ <span className="gold-text">RUARA?</span>
+            ¿POR QUÉ <span className="text-accent">RUARA?</span>
           </motion.h2>
         </div>
 
@@ -40,10 +40,10 @@ export default function Benefits() {
               transition={{ duration:0.6,delay:i*0.07,ease:[0.16,1,0.3,1] }}
               className="rounded-2xl p-6 group transition-all duration-350 cursor-default"
               style={{ background:'var(--card-bg)', border:'1px solid var(--border)' }}
-              onMouseEnter={e => { e.currentTarget.style.background='rgba(201,163,82,0.05)'; e.currentTarget.style.borderColor='rgba(201,163,82,0.2)'; e.currentTarget.style.transform='translateY(-4px)' }}
-              onMouseLeave={e => { e.currentTarget.style.background='rgba(255,255,255,0.028)'; e.currentTarget.style.borderColor='rgba(255,255,255,0.06)'; e.currentTarget.style.transform='translateY(0)' }}>
+              onMouseEnter={e => { e.currentTarget.style.background='var(--card-hover)'; e.currentTarget.style.borderColor='var(--text-3)'; e.currentTarget.style.transform='translateY(-4px)' }}
+              onMouseLeave={e => { e.currentTarget.style.background='var(--card-bg)'; e.currentTarget.style.borderColor='var(--border)'; e.currentTarget.style.transform='translateY(0)' }}>
               <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-5"
-                style={{ background:'rgba(201,163,82,0.07)', border:'1px solid rgba(201,163,82,0.14)', color:'#C9A352' }}>
+                style={{ background:'var(--tint)', border:'1px solid var(--tint-border)', color:'var(--text)' }}>
                 {b.icon}
               </div>
               <h3 className="font-bold mb-2"

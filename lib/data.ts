@@ -2,6 +2,10 @@ export const WHATSAPP_URL   = 'https://wa.link/wnis6u'
 export const INSTAGRAM_URL  = 'https://www.instagram.com/ruaraautosold/'
 export const BUSINESS_ADDRESS = 'Calle Las Palmeras Orientales #1, Res. Los Triunfadores, Santo Domingo Este, República Dominicana'
 export const BUSINESS_NAME = 'RUARA AUTO SOLD'
+export const BUSINESS_PHONE = '+18098285795'
+
+// Cambia esto por el dominio definitivo cuando lo tengas (afecta sitemap, robots.txt, canonical y Open Graph)
+export const SITE_URL = 'https://ruaraautosold.com'
 
 export interface Vehicle {
   id: number

@@ -15,7 +15,7 @@ export default function FinanciamientoPage() {
     <>
       <ScrollProgress />
       <Navbar />
-      <main style={{ background: 'var(--bg)', minHeight: '100vh', paddingTop: '80px' }}>
+      <main style={{ background: 'var(--bg)', minHeight: '100vh', paddingTop: '104px' }}>
         <FinancingCalculator />
       </main>
       <Footer />

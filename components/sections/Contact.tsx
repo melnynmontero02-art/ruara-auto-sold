@@ -40,7 +40,7 @@ export default function Contact() {
           <motion.div initial={{ opacity:0,x:-24 }} animate={inView?{opacity:1,x:0}:{}} transition={{ duration:0.7,delay:0.18 }}
             className="contact-info space-y-5">
             {[
-              { icon:<MapPin size={15} style={{ color:'#C9A352' }}/>, title:'Ubicación', text:BUSINESS_ADDRESS, bg:'rgba(201,163,82,0.07)', border:'rgba(201,163,82,0.15)' },
+              { icon:<MapPin size={15} style={{ color:'var(--text)' }}/>, title:'Ubicación', text:BUSINESS_ADDRESS, bg:'var(--tint)', border:'var(--tint-border)' },
               { icon:<MessageCircle size={15} style={{ color:'#25D366' }}/>, title:'WhatsApp', text:null, bg:'rgba(37,211,102,0.07)', border:'rgba(37,211,102,0.15)' },
             ].map((item,i) => (
               <div key={i} className="flex gap-4">
@@ -52,8 +52,8 @@ export default function Contact() {
                     ? <p className="text-sm leading-relaxed" style={{ color:'var(--text-2)' }}>{item.text}</p>
                     : <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer"
                         className="text-sm transition-colors" style={{ color:'var(--text-2)' }}
-                        onMouseEnter={e=>(e.currentTarget.style.color='#C9A352')}
-                        onMouseLeave={e=>(e.currentTarget.style.color='rgba(255,255,255,0.45)')}>
+                        onMouseEnter={e=>(e.currentTarget.style.color='#25D366')}
+                        onMouseLeave={e=>(e.currentTarget.style.color='var(--text-2)')}>
                         Escríbenos directamente →
                       </a>
                   }
@@ -64,7 +64,8 @@ export default function Contact() {
               style={{ border:'1px solid var(--border)', height:'300px' }}>
               <iframe src="https://maps.google.com/maps?q=F5PX%2BQ7+Santo+Domingo&output=embed"
                 width="100%" height="100%"
-                style={{ border:0, filter:'invert(90%) hue-rotate(180deg) brightness(0.8) contrast(1.1)' }}
+                className="map-embed"
+                style={{ border:0 }}
                 allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"
                 title="Ubicación RUARA AUTO SOLD"/>
             </div>
@@ -75,7 +76,7 @@ export default function Contact() {
             <div className="rounded-2xl p-8"
               style={{ background:'var(--card-bg)', border:'1px solid var(--border)' }}>
               <h3 className="text-xs font-bold tracking-widest uppercase mb-7"
-                style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif', color:'#C9A352' }}>Enviar Consulta</h3>
+                style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif', color:'var(--text-3)' }}>Enviar Consulta</h3>
               <form onSubmit={submit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
@@ -100,7 +101,7 @@ export default function Contact() {
                   <textarea name="message" rows={4} placeholder="¿En qué podemos ayudarte?" value={form.message} onChange={ch} 
                     className={I} style={{ resize:'none' }}/>
                 </div>
-                <button type="submit" className="btn-gold w-full flex items-center justify-center gap-2 py-4 mt-2">
+                <button type="submit" className="btn-primary w-full flex items-center justify-center gap-2 py-4 mt-2">
                   <Send size={14}/>Enviar por WhatsApp
                 </button>
               </form>

@@ -64,6 +64,12 @@ export default function Hero() {
         }}
       />
 
+      {/* ── Top fade — asegura contraste del navbar flotante ── */}
+      <div
+        className="absolute inset-x-0 top-0 pointer-events-none"
+        style={{ height: '240px', background: 'linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.55) 35%, rgba(0,0,0,0) 100%)', zIndex: 1 }}
+      />
+
       {/* ── Bottom fade to page background ───────────────── */}
       <div className="absolute bottom-0 left-0 right-0 pointer-events-none"
         style={{ height: '120px', background: 'linear-gradient(to bottom, transparent, var(--bg))', zIndex: 2 }} />
@@ -74,27 +80,15 @@ export default function Hero() {
         style={{
           zIndex: 3,
           paddingBottom: isMobile ? '100px' : '60px',
-          paddingTop: isMobile ? '110px' : '0',
+          paddingTop: isMobile ? '110px' : '110px',
         }}
       >
         {/* On mobile: content takes only the left ~60% so car stays visible */}
         <div
           style={{
-            maxWidth: isMobile ? '100%' : '520px',
+            maxWidth: isMobile ? '92vw' : '780px',
           }}
         >
-          {/* Label */}
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="section-label mb-5 w-fit"
-            style={{ background: 'rgba(201,163,82,0.1)', borderColor: 'rgba(201,163,82,0.35)', color: '#C9A352' }}
-          >
-            <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#C9A352' }} />
-            Dealer Premium · Santo Domingo
-          </motion.div>
-
           {/* Title */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -103,17 +97,17 @@ export default function Hero() {
             style={{
               fontFamily: 'var(--font)',
               fontWeight: 700,
-              fontSize: 'clamp(1.75rem, 5vw + 0.5rem, 4.5rem)',
-              lineHeight: 1.1,
+              fontSize: isMobile ? 'clamp(2.2rem, 12vw, 4rem)' : 'clamp(2.6rem, 6vw, 5.8rem)',
+              lineHeight: isMobile ? 1.0 : 0.95,
               color: '#FFFFFF',
-              marginBottom: '1rem',
-              letterSpacing: '-0.01em',
+              marginBottom: '1.5rem',
+              letterSpacing: '-0.04em',
+              maxWidth: isMobile ? '92vw' : '760px',
             }}
           >
-            CALIDAD QUE<br />
-            SE SIENTE,{' '}
-            <span className="gold-text">CONFIANZA</span>
-            <br />QUE TE ACOMPAÑA.
+            CALIDAD QUE SE SIENTE.{' '}
+            <span className="text-accent">CONFIANZA</span>{' '}
+            QUE TE ACOMPAÑA.
           </motion.h1>
 
           {/* Subtitle */}
@@ -123,14 +117,14 @@ export default function Hero() {
             transition={{ duration: 0.65, delay: 0.5 }}
             style={{
               color: 'rgba(255,255,255,0.72)',
-              fontSize: 'clamp(0.875rem, 2vw, 1.05rem)',
-              lineHeight: 1.65,
-              marginBottom: '1.75rem',
-              maxWidth: '440px',
+              fontSize: 'clamp(0.9rem, 2vw, 1.05rem)',
+              lineHeight: 1.7,
+              marginBottom: '2.25rem',
+              maxWidth: '480px',
             }}
           >
             Vehículos importados con{' '}
-            <span style={{ color: '#C9A352', fontWeight: 600 }}>financiamiento flexible</span>
+            <span style={{ color: '#FFFFFF', fontWeight: 600 }}>financiamiento flexible</span>
             {' '}y aprobación rápida en República Dominicana.
           </motion.p>
 
@@ -139,9 +133,9 @@ export default function Hero() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, delay: 0.65 }}
-            className="flex gap-3 flex-wrap"
+            className="flex gap-4 flex-wrap"
           >
-            <Link href="/inventario" className="btn-gold flex items-center gap-2"
+            <Link href="/inventario" className="btn-primary flex items-center gap-2"
               style={{ flex: isMobile ? '1 1 auto' : 'none' }}>
               <Car size={16} />Ver Inventario
             </Link>
@@ -157,7 +151,7 @@ export default function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.85 }}
-            className="flex gap-6 mt-7 flex-wrap"
+            className="flex gap-8 mt-10 flex-wrap"
           >
             {[
               { v: '500+', l: 'Vendidos' },
@@ -165,7 +159,7 @@ export default function Hero() {
               { v: '98%',  l: 'Aprobaciones' },
             ].map((s, i) => (
               <div key={i}>
-                <div style={{ fontFamily:'var(--font)', fontWeight:700, fontSize:'clamp(1.2rem,3vw,1.6rem)', color:'#C9A352' }}>
+                <div style={{ fontFamily:'var(--font)', fontWeight:700, fontSize:'clamp(1.2rem,3vw,1.6rem)', color:'#FFFFFF' }}>
                   {s.v}
                 </div>
                 <div style={{ fontSize:'clamp(0.65rem,1.2vw,0.75rem)', color:'rgba(255,255,255,0.45)', letterSpacing:'0.1em', textTransform:'uppercase' }}>
@@ -183,7 +177,7 @@ export default function Hero() {
         style={{ zIndex: 4, animation: 'chevBounce 2s ease-in-out infinite', transform: 'translateX(-50%)' }}
       >
         <button
-          onClick={() => document.querySelector('#stats-bar')?.scrollIntoView({ behavior: 'smooth' })}
+          onClick={() => document.querySelector('#inventario')?.scrollIntoView({ behavior: 'smooth' })}
           className="flex flex-col items-center gap-1"
           style={{ color: 'rgba(255,255,255,0.4)' }}
         >

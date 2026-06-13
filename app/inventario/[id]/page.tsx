@@ -4,7 +4,6 @@ import { vehicles, getVehicleById } from '@/lib/data'
 import VehicleDetail from '@/components/sections/VehicleDetail'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
-import WhatsAppButton from '@/components/ui/WhatsAppButton'
 import ScrollProgress from '@/components/ui/ScrollProgress'
 
 interface Props {
@@ -42,7 +41,6 @@ export default async function Page({ params }: Props) {
         <VehicleDetail vehicle={vehicle} />
       </main>
       <Footer />
-      <WhatsAppButton />
     </>
   )
 }

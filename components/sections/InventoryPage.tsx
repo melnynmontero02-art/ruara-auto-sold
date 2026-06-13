@@ -184,7 +184,7 @@ export default function InventoryPage() {
   const [brand,       setBrand]       = useState('Todos')
   const [type,        setType]        = useState('Todos')
   const [priceIdx,    setPriceIdx]    = useState(0)
-  const [showFilters, setShowFilters] = useState(true)
+  const [showFilters, setShowFilters] = useState(false)
 
   const filtered = useMemo(() => vehicles.filter(v => {
     const pr = PRICES[priceIdx]

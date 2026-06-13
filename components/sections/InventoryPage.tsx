@@ -120,83 +120,60 @@ function VehicleModal({ v, onClose }: { v: Vehicle; onClose: () => void }) {
 
 /* ─── Card ───────────────────────────────────────────────── */
 function Card({ v, onOpen }: { v: Vehicle; onOpen: ()=>void }) {
-  const [tilt,   setTilt]   = useState({ x:0, y:0 })
-  const [hover,  setHover]  = useState(false)
   const [imgSrc, setImgSrc] = useState(v.image)
   const [err,    setErr]    = useState(false)
-
-  const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const r = e.currentTarget.getBoundingClientRect()
-    setTilt({ x:((e.clientY-r.top)/r.height-0.5)*-7, y:((e.clientX-r.left)/r.width-0.5)*7 })
-  }
 
   return (
     <motion.div
       initial={{ opacity:0, y:20 }}
       animate={{ opacity:1, y:0 }}
       transition={{ duration:0.4, ease:[0.16,1,0.3,1] }}
-      style={{ perspective:'900px' }}>
-      <motion.div
-        onMouseMove={onMove}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => { setHover(false); setTilt({x:0,y:0}) }}
-        animate={{ rotateX:tilt.x, rotateY:tilt.y }}
-        transition={{ type:'spring', stiffness:180, damping:22 }}
-        style={{ transformStyle:'preserve-3d' }}
-        className="vehicle-card cursor-pointer"
-        onClick={onOpen}>
-        <motion.div
-          animate={hover ? { boxShadow:'0 20px 50px rgba(0,0,0,0.3), 0 0 0 1px rgba(148,163,184,0.25)' } : { boxShadow:'0 4px 20px rgba(0,0,0,0.1)' }}
-          transition={{ duration:0.3 }}
-          style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:'24px', overflow:'hidden' }}>
-          <div className="relative w-full h-[280px] flex items-center justify-center overflow-hidden" style={{ background:'#F5F5F5' }}>
-            {!err ? (
-              <Image src={imgSrc} alt={`${v.brand} ${v.model}`} fill
-                className="object-contain object-center p-4"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                style={{ transition:'transform 0.6s ease', transform:hover?'scale(1.05)':'scale(1)' }}
-                onError={() => { if(imgSrc!==v.fallback)setImgSrc(v.fallback); else setErr(true) }}/>
-            ) : (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 17H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1l2-4h12l2 4h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2"/>
-                  <circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/>
-                </svg>
-              </div>
-            )}
-            {v.verified && (
-              <div className="absolute top-3 left-3 flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold"
-                style={{ background:'rgba(255,255,255,0.9)', color:'#16a34a', border:'1px solid rgba(34,197,94,0.25)', backdropFilter:'blur(6px)' }}>
-                <ShieldCheck size={10}/>Verificado RUARA
-              </div>
-            )}
-            <motion.div animate={{ opacity:hover?1:0 }} transition={{ duration:0.2 }}
-              className="absolute inset-x-0 bottom-0 flex items-center justify-center pb-3 pt-10"
-              style={{ background:'linear-gradient(to top, rgba(0,0,0,0.28), transparent)' }}>
-              <div className="px-3 py-1.5 rounded-full text-xs font-semibold"
-                style={{ background:'var(--accent)', color:'var(--accent-text)' }}>Ver detalles</div>
-            </motion.div>
+      onClick={onOpen}
+      className="group cursor-pointer overflow-hidden rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-xl transition-shadow duration-300">
+
+      {/* Image */}
+      <div className="relative h-[280px] overflow-hidden bg-slate-100">
+        {!err ? (
+          <Image src={imgSrc} alt={`${v.brand} ${v.model}`} fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            onError={() => { if(imgSrc!==v.fallback)setImgSrc(v.fallback); else setErr(true) }}/>
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#CBD5E1" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 17H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1l2-4h12l2 4h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2"/>
+              <circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/>
+            </svg>
           </div>
-          <div className="p-4">
-            <div className="mb-2">
-              <div className="text-xs font-bold tracking-widest uppercase" style={{ color:'var(--text)' }}>{v.brand}</div>
-              <h3 className="font-bold leading-tight"
-                style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif', fontSize:'0.82rem', letterSpacing:'0.03em', color:'var(--text)' }}>{v.model}</h3>
-              <div className="text-xs mt-0.5" style={{ color:'var(--text-3)' }}>{v.year} · {v.mileage} · {v.type}</div>
-            </div>
-            <div className="flex items-end justify-between pt-3" style={{ borderTop:'1px solid var(--border)' }}>
-              <div>
-                <div className="text-xs mb-0.5" style={{ color:'var(--text-3)' }}>Precio</div>
-                <div className="text-base font-bold text-accent" style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif' }}>{formatCurrency(v.price)}</div>
-              </div>
-              <div className="text-right">
-                <div className="text-xs mb-0.5" style={{ color:'var(--text-3)' }}>Inicial desde</div>
-                <div className="text-xs font-semibold" style={{ color:'var(--text-2)', fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif' }}>{formatCurrency(v.initial)}</div>
-              </div>
-            </div>
+        )}
+        {v.verified && (
+          <span className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-emerald-600 shadow-sm backdrop-blur-sm">
+            <ShieldCheck size={12}/>Verificado RUARA
+          </span>
+        )}
+      </div>
+
+      {/* Content */}
+      <div className="p-5">
+        <h3 className="text-xs font-bold tracking-[0.22em] uppercase text-slate-900">{v.brand}</h3>
+        <p className="text-sm font-semibold text-slate-800 mt-0.5"
+          style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif' }}>{v.model}</p>
+        <p className="mt-1 text-sm text-slate-500">{v.year} · {v.mileage} · {v.type}</p>
+
+        <div className="my-4 h-px bg-slate-200" />
+
+        <div className="flex items-end justify-between">
+          <div>
+            <p className="text-xs text-slate-400">Precio</p>
+            <p className="text-xl font-extrabold text-slate-900"
+              style={{ fontFamily:'Century Gothic, CenturyGothic, Josefin Sans, sans-serif' }}>{formatCurrency(v.price)}</p>
           </div>
-        </motion.div>
-      </motion.div>
+          <div className="text-right">
+            <p className="text-xs text-slate-400">Inicial desde</p>
+            <p className="text-sm font-bold text-slate-700">{formatCurrency(v.initial)}</p>
+          </div>
+        </div>
+      </div>
     </motion.div>
   )
 }

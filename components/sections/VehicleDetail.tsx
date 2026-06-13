@@ -70,35 +70,36 @@ function RelatedCard({ v }: { v: Vehicle }) {
 
   return (
     <Link href={`/inventario/${v.id}`}
-      className="group block rounded-[24px] overflow-hidden transition-all duration-300"
-      style={{ background: 'var(--card)', border: '1px solid var(--border)' }}>
-      <div className="relative w-full h-[280px] flex items-center justify-center overflow-hidden" style={{ background: '#F5F5F5' }}>
+      className="group block overflow-hidden rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-xl transition-shadow duration-300">
+      <div className="relative h-[280px] overflow-hidden bg-slate-100">
         <Image
           src={imgSrc}
           alt={`${v.brand} ${v.model}`}
           fill
-          className="object-contain object-center p-4 transition-transform duration-500 group-hover:scale-105"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
           sizes="(max-width: 768px) 50vw, 25vw"
           onError={() => setImgSrc(v.fallback)}
         />
         {v.verified && (
-          <div className="absolute top-3 left-3 flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold"
-            style={{ background:'rgba(255,255,255,0.9)', color:'#16a34a', border:'1px solid rgba(34,197,94,0.25)', backdropFilter:'blur(6px)' }}>
-            <ShieldCheck size={10}/>Verificado RUARA
-          </div>
+          <span className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-emerald-600 shadow-sm backdrop-blur-sm">
+            <ShieldCheck size={12}/>Verificado RUARA
+          </span>
         )}
       </div>
-      <div className="p-4">
-        <div className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color: 'var(--text)' }}>{v.brand}</div>
-        <h3 className="font-bold leading-tight mb-1"
-          style={{ fontFamily: 'var(--font)', fontSize: '0.95rem', color: 'var(--text)' }}>{v.model}</h3>
-        <div className="text-xs mb-3" style={{ color: 'var(--text-3)' }}>{v.year} · {v.mileage}</div>
-        <div className="flex items-end justify-between pt-3" style={{ borderTop: '1px solid var(--border)' }}>
+      <div className="p-5">
+        <h3 className="text-xs font-bold tracking-[0.22em] uppercase text-slate-900">{v.brand}</h3>
+        <p className="text-sm font-semibold text-slate-800 mt-0.5"
+          style={{ fontFamily: 'var(--font)' }}>{v.model}</p>
+        <p className="mt-1 text-sm text-slate-500">{v.year} · {v.mileage}</p>
+
+        <div className="my-4 h-px bg-slate-200" />
+
+        <div className="flex items-end justify-between">
           <div>
-            <div className="text-xs mb-0.5" style={{ color: 'var(--text-3)' }}>Precio</div>
-            <div className="text-base font-bold text-accent" style={{ fontFamily: 'var(--font)' }}>{fmt(v.price)}</div>
+            <p className="text-xs text-slate-400">Precio</p>
+            <p className="text-xl font-extrabold text-slate-900" style={{ fontFamily: 'var(--font)' }}>{fmt(v.price)}</p>
           </div>
-          <ChevronRight size={16} style={{ color: 'var(--text)' }} className="transition-transform duration-300 group-hover:translate-x-1" />
+          <ChevronRight size={16} className="text-slate-400 transition-transform duration-300 group-hover:translate-x-1" />
         </div>
       </div>
     </Link>
@@ -177,7 +178,7 @@ export default function VehicleDetail({ vehicle: v }: { vehicle: Vehicle }) {
               src={getSrc(mainImg)}
               alt={`${v.brand} ${v.model} ${v.year}`}
               fill
-              className="object-contain object-center p-4"
+              className="object-cover object-center"
               priority
               sizes="(max-width: 768px) 100vw, 50vw"
               onError={() => handleErr(mainImg)}
@@ -215,7 +216,7 @@ export default function VehicleDetail({ vehicle: v }: { vehicle: Vehicle }) {
                     src={getSrc(src)}
                     alt={`Foto ${i + 1}`}
                     fill
-                    className="object-contain object-center p-1.5"
+                    className="object-cover object-center"
                     sizes="100px"
                     onError={() => handleErr(src)}
                   />
